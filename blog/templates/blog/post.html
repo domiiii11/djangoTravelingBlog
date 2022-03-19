@@ -8,8 +8,22 @@
 
 
 {%block title_bar%}
- {{ block.super }}
-{%endblock title_bar%}
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Domile's page</h1>
+        <p class="lead text-muted">It is fake traveling blog page. Bon aptetit! </p>
+        <p>
+            {% url 'index' as main_url %} 
+            <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%endblock title_bar%}
+
         {% block card%}
         <div class="album py-5 bg-light">
             <div class="container">
