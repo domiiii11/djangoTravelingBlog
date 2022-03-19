@@ -14,13 +14,9 @@ def posts(request):
     
 
 def post(request, post_id):    
-    posts = ["post1", "post2"]
-    post = posts[post_id]
-
-    
-    context = {
-        "post": post,
-    }
-    
+    number_list = []
+    for i in range(3):
+        number_list.append(i)
+    context = {'cards_content': number_list}
     return render(request, 'blog/post.html', context)
     
