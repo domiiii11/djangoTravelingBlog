@@ -87,13 +87,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'blogdata',
         'USER': 'postgres',
-        'PASSWORD': '123465798',
+        'PASSWORD': '123456789',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'TEST': {
-            'NAME': 'testBlogDatebase',
-            'USER': 'postgres'
-        }
+        'PORT': '5432'
     }
 }
 
@@ -121,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC+2'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
