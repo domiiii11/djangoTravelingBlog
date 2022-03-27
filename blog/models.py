@@ -23,6 +23,7 @@ class Post(models.Model):
     def was_published_recently(self):
         return self.release_date >= timezone.now() - datetime.timedelta(days=1)
 
+
 # country1 = Country(country_name="Greece", capital="Athens", places_to_visit="Cafes and restarants")
 # country1.save()
 

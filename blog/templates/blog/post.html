@@ -13,7 +13,7 @@
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Domile's page</h1>
-        <p class="lead text-muted">It is fake traveling blog page. Bon aptetit! </p>
+        <p class="lead text-muted">My fake traveling blog page.  </p>
         <p>
             {% url 'index' as main_url %} 
             <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
@@ -35,9 +35,9 @@
  
         <div class="col">
           <div class="card shadow-sm">
-            <img src="{{STATIC_PREFIX}}blog/images/{{card_id}}.jpg" alt="My image" width="100%" height="100%">  
+            <img src="{{STATIC_PREFIX}}blog/images/{{post.id}}.jpg" alt="My image" width="100%" height="100%">  
             <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">{{post.post_text}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
