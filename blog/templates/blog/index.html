@@ -21,9 +21,12 @@
                     {% url 'blog:post' post.id as post_url %} 
                     <a href="{{ post_url }}">View</a>
                   </button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">
+                    {% url 'blog:edit' post.id as post_url %} 
+                    <a href="{{ post_url }}">Edit</a>
+                  </button>
                 </div>
-                <small class="text-muted">9 mins</small>
+                <small class="text-muted">{{post.release_date}}</small>
               </div>
             </div>
           </div>

@@ -27,15 +27,12 @@ class Image(models.Model):
     title = models.CharField(max_length=200)
     img = models.ImageField(upload_to="media")
     country_name = models.ForeignKey(Country, on_delete=models.CASCADE)
-    class Meta:
-        db_table = "gallery"
+    
+    def __str__(self):
+        return self.title
 
-# country1 = Country(country_name="Greece", capital="Athens", places_to_visit="Cafes and restarants")
-# country1.save()
+        
 
-# post1 = Post(author="Me", post_title="My vocations", post_text="Traveling is so wonderfull thing everyone loves it.", release_date=timezone.now(), country_name=country1)
-
-# post1.save()
-# print(post1.id)
-
-
+country1 = Country.objects.get(pk=1)
+picture1 = Image(title="Beautiful beach.", img="media/0.jpg", country_name=country1)
+picture = Image.objects.get(pk=1)
