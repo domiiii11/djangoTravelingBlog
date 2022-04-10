@@ -41,8 +41,18 @@
               <p class="card-text"> 
                 <form action="" method="post">
                      {% csrf_token %}
-                    {{ form }}
+                    {{ post_form.as_p }}
                 <input type="submit" value="Submit">
+              </form>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ country_form.as_p }}
+                <input type="submit" value="Submit">
+              </form>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ image_form.as_p }}
+         <input type="submit" value="Submit">
             </form> </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">

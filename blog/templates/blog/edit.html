@@ -3,25 +3,10 @@
 {% load bootstrap5 %}
 
 
-
 {% block bootstrap5_content %}
 
-
 {%block title_bar%}
-
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Domile's page</h1>
-        <p class="lead text-muted">My fake traveling blog page.  </p>
-        <p>
-            {% url 'blog:index' as main_url %} 
-            <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
+ {{block.super}}
   {%endblock title_bar%}
 
         {% block card%}
@@ -60,6 +45,3 @@
 
     {% endblock card%}   
     {% endblock bootstrap5_content %}
-
-
-

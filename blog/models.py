@@ -25,14 +25,9 @@ class Post(models.Model):
 
 class Image(models.Model): 
     title = models.CharField(max_length=200)
-    img = models.ImageField(upload_to="media")
+    img = models.ImageField(upload_to="images/")
     country_name = models.ForeignKey(Country, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.title
 
-        
-
-country1 = Country.objects.get(pk=1)
-picture1 = Image(title="Beautiful beach.", img="media/0.jpg", country_name=country1)
-picture = Image.objects.get(pk=1)

@@ -17,7 +17,6 @@ import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -26,6 +25,8 @@ SECRET_KEY = 'django-insecure-*4%360imcd6u-p_#x3c^r6o(id=0hd9f^v6y8f!mkv&9*^kt(z
 
 # Include BOOTSTRAP5_FOLDER in path
 BOOTSTRAP5_FOLDER = os.path.abspath(os.path.join(BASE_DIR, "..", "bootstrap5"))
+
+print(BOOTSTRAP5_FOLDER)
 if BOOTSTRAP5_FOLDER not in sys.path:
     sys.path.insert(0, BOOTSTRAP5_FOLDER)
 
@@ -33,7 +34,6 @@ if BOOTSTRAP5_FOLDER not in sys.path:
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -58,8 +58,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'image') 
-MEDIA_URL = '/image/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'images') 
+MEDIA_URL = 'images/'
 
 ROOT_URLCONF = 'mysite2.urls'
 
@@ -80,7 +80,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite2.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -114,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -125,7 +123,6 @@ TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
