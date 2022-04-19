@@ -31,9 +31,7 @@ def create_post(request):
             post_title_ = post_form.cleaned_data['post_title']
             post_text_ = post_form.cleaned_data['post_text']
             release_date_ = post_form.cleaned_data['release_date']
-            country_ = Country(country_name="Greece", capital="Athens",
-                               places_to_visit="Cafes and restarants")
-            country_.save()
+            country_ = post_form.cleaned_data['country']
             post = Post(author=author_, post_title=post_title_, post_text=post_text_,
                         release_date=release_date_, country_name=country_)
             post.save()
