@@ -1,27 +1,27 @@
+
 {% extends 'blog/base.html' %}
 {% load bootstrap5 %}
-
-{% block card%}
 {% load static %}
-{% get_static_prefix as STATIC_PREFIX %}
-
+{% get_static_prefix %}
+{% block card%}
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      {% for post in posts %}
+      
+      {% for key, value in posts_dictionary.items %}
         <div class="col">
-          <div class="card shadow-sm">
-            <img src="{{STATIC_PREFIX}}blog/images/{{post.id}}.jpg" alt="My image" width="100%" height="225">  
+          <div class="card shadow-sm">            
+            <img src="{{value.img.url}}" alt="My image" width="100%" height="100%">  
             <div class="card-body">
-              <p class="card-text">{{post.post_text}}</p>
+              <p class="card-text">{{key.post_text}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">
-                    {% url 'blog:post' post.id as post_url %} 
+                    {% url 'blog:post' key.id as post_url %} 
                     <a href="{{ post_url }}">View</a>
                   </button>
                   <button type="button" class="btn btn-sm btn-outline-secondary">
-                    {% url 'blog:edit' post.id as post_url %} 
+                    {% url 'blog:edit' key.id as post_url %} 
                     <a href="{{ post_url }}">Edit</a>
                   </button>
                 </div>

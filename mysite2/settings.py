@@ -58,9 +58,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'images') 
-MEDIA_URL = 'images/'
-
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+# media_root - it is absolute path there all collected
+MEDIA_URL = 'media/'
+# URL that handles the media served from MEDIA_ROOT, used for managing stored files.
 ROOT_URLCONF = 'mysite2.urls'
 
 TEMPLATES = [
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -87,7 +89,7 @@ WSGI_APPLICATION = 'mysite2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blogdata',
+        'NAME': 'blogdata1',
         'USER': 'postgres',
         'PASSWORD': '123456789',
         'HOST': '127.0.0.1',

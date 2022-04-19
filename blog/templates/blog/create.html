@@ -48,12 +48,13 @@
                     {% csrf_token %}
                     {{ country_form.as_p }}
                 <input type="submit" value="Submit">
-              </form>
-                <form action="" method="post">
+              </form> 
+                <form action="" method="post" enctype='multipart/form-data'>
                     {% csrf_token %}
                     {{ image_form.as_p }}
-         <input type="submit" value="Submit">
-            </form> </p>
+              <input type="submit" value="Submit">
+              </form> 
+            </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>

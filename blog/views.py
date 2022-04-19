@@ -1,22 +1,23 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from blog.models import Post, Country, Image
-from django import forms
 from blog.forms import PostForm, CountryForm, ImageForm
-from django.http import HttpResponseRedirect
+
 
 
 def index(request):
     posts = Post.objects.order_by('release_date')
-    print(posts)
-    numbers = []
+    posts_dictionary = {}
     for post in posts:
-        numbers.append(post.id)
-        print(numbers)
-    countries = Country.objects.all()
-    context = {'posts': posts,
-               "country": countries,
-               "numbers": numbers}
+        images = Image.objects.filter(country_name = post.country_name)
+        image_list = [image for image in images]
+        if image_list:
+            posts_dictionary[post] = image_list[0]
+            print(image_list[0])
+        else:
+            posts_dictionary[post] = None
+    print(posts_dictionary)    
+    context = {'posts_dictionary': posts_dictionary}
     return render(request, "blog/index.html", context)
 
 
@@ -24,7 +25,7 @@ def create_post(request):
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         country_form = CountryForm(request.POST)
-        image_form = ImageForm(request.POST)
+        image_form = ImageForm(request.POST, request.FILES)
         if post_form.is_valid():
             author_ = post_form.cleaned_data['author']
             post_title_ = post_form.cleaned_data['post_title']
@@ -36,13 +37,14 @@ def create_post(request):
             post = Post(author=author_, post_title=post_title_, post_text=post_text_,
                         release_date=release_date_, country_name=country_)
             post.save()
-        elif image_form.is_valid():
-            title_ = image_form.cleaned_data['author']
-            img_ = image_form.cleaned_data['img']
-            country_name_ = image_form.cleaned_data['country']
-            image = Image(title=title_, img=img_, country_name=country_name_)
+        if image_form.is_valid():
+            title_ = image_form.cleaned_data['title']
+            country_id = image_form.cleaned_data['country']
+            country_ = Country.objects.get(id=int(country_id[0]))
+            img_ = image_form.cleaned_data.get('image')
+            image = Image(title=title_, img=img_, country_name=country_)
             image.save()
-        elif country_form.is_valid():
+        if country_form.is_valid():
             country_name_ = country_form.cleaned_data['country_name']
             capital_ = country_form.cleaned_data['capital']
             places_to_visit_ = country_form.cleaned_data['places_to_visit']
