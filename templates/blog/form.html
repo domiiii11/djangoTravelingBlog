@@ -1,0 +1,37 @@
+{% extends 'blog/bootstrap.html' %}
+{% load bootstrap5 %}
+{% block bootstrap5_extra_head %} 
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    {% load static %}    
+    {% load compress %}    
+    {% compress css %}
+    <link type="text/x-scss" href="{% static 'index.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
+{% endblock bootstrap5_extra_head  %}
+
+{% block bootstrap5_before_content %}
+
+{% endblock bootstrap5_before_content %}
+
+{% block bootstrap5_content %}
+{%block title_bar%}
+{%endblock title_bar%}
+{% endblock bootstrap5_content %}
+{% block bootstrap5_after_content %}
+{% endblock bootstrap5_after_content %}
