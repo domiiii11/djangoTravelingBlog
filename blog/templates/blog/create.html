@@ -15,8 +15,8 @@
         <h1 class="fw-light">Domile's page</h1>
         <p class="lead text-muted">My fake traveling blog page.  </p>
         <p>
-            {% url 'blog:index' as main_url %} 
-            <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
+          {% url 'blog:main' as main_url %} 
+          <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
         </p>
       </div>
     </div>

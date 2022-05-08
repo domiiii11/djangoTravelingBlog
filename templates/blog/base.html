@@ -1,8 +1,7 @@
 {% extends 'blog/bootstrap.html' %}
-
 {% load bootstrap5 %}
-
 {% block bootstrap5_extra_head %} 
+
 
     <style>
       .bd-placeholder-img {
@@ -19,6 +18,11 @@
         }
       }
     </style>
+    {% load static %}    
+    {% load compress %}    
+    {% compress css %}
+    <link type="text/x-scss" href="{% static 'index.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
 {% endblock bootstrap5_extra_head  %}
    
 {% block bootstrap5_before_content %}
@@ -55,8 +59,8 @@
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
       <a href="#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <strong>My page</strong>
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><image href="../../media/icons/earth.png" x="0" y="0" height="25px" width="25px"/></svg>
+        <strong>My traveling blog</strong>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -72,14 +76,12 @@
 
 {%block title_bar%}
 
-  <section class="py-5 text-center container">
+  <section class="py-5 text-center container heading-style" >
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Domile's page</h1>
         <p class="lead text-muted">It is fake traveling blog page. Bon aptetit! </p>
         <p>
-          {% url 'blog:main' as main_url %} 
-          <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
           {% url 'blog:create' as create_url %}           
           <a href="{{ create_url }}" class="btn btn-secondary my-2">Create a post</a>
         </p>

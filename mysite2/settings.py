@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'bootstrap5'
+    'bootstrap5',
+    'compressor',
+    'sass_processor'
 ]
 
 MIDDLEWARE = [
@@ -68,6 +70,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
+        #os.path.join(BASE_DIR, 'media') 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,21 +130,37 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+#https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
+STATIC_ROOT = 'staticstatic/'
+#location there where all static files are collected
+
+
+
+STATIC_URL = 'static/' 
+# this url links to static root there all static files are collected, then we use it in our htmlwit {static /dfs/sdfsf/sdf}
+
+SASS_PROCESSOR_ROOT = STATIC_ROOT
+# directory where all our static assets will live same as STATIC_ROOT
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
-]
+    os.path.join(BASE_DIR, 'static')     
+    ]
+#static finders finds static files from this location basedir/static and form all apps static
+
+print(os.path.join(BASE_DIR, 'static')),
+print(os.path.join(BASE_DIR, 'blog')) 
 
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+    "sass_processor.finders.CssFinder" 
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+COMPRESS_PRECOMPILERS = ( ('text/x-scss', 'django_libsass.SassCompiler'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

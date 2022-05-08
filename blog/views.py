@@ -82,3 +82,10 @@ def post(request, post_id):
     context = {'post': post,
                }
     return render(request, 'blog/post.html', context)
+
+
+def boostrap(request):
+    return render(request, 'blog/indexb.html')
+
+def scss(request):
+    return render(request, 'blog/indexc.html')

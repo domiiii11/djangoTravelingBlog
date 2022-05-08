@@ -6,7 +6,22 @@
 {% block bootstrap5_content %}
 
 {%block title_bar%}
- {{block.super}}
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Domile's page</h1>
+      <p class="lead text-muted">It is fake traveling blog page. Bon aptetit! </p>
+      <p>
+        {% url 'blog:main' as main_url %} 
+        <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
+        {% url 'blog:create' as create_url %}           
+        <a href="{{ create_url }}" class="btn btn-secondary my-2">Create a post</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+
   {%endblock title_bar%}
 
         {% block card%}
@@ -14,7 +29,7 @@
             <div class="container">
         
               <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-3">
-        
+               
         {% load static %}
         {% get_static_prefix as STATIC_PREFIX %}
  

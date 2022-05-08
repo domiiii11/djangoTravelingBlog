@@ -1,8 +1,50 @@
 
 {% extends 'blog/base.html' %}
 {% load bootstrap5 %}
+{% block bootstrap5_extra_head %} 
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    {% load static %}    
+    {% load compress %}    
+    {% compress css %}
+    <link type="text/x-scss" href="{% static 'index.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
+{% endblock bootstrap5_extra_head  %}
+
 {% load static %}
 {% get_static_prefix %}
+
+{%block title_bar%}
+
+  <section id="aa" class="py-5 text-center container heading-style">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">My traveling blog page</h1>
+        <p class="lead text-muted">Taste spoonful travelling adventures together with me.</p>
+        <p>          
+          {% url 'blog:create' as create_url %}           
+          <a href="{{ create_url }}" class="btn btn-secondary my-2">Create a post</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%endblock title_bar%}
 {% block card%}
 <div class="album py-5 bg-light">
   <div class="container">
