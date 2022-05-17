@@ -4,15 +4,13 @@ from blog.models import Country, Post, Image
 import datetime
 
 choices_ = Country.objects.all()
-
-print(choices_)
-ids = [(country.id, country.country_name)  for country in choices_]
+# ids = {country.id : country.country_name for country in choices_}
 # # for element in choices_: ids.append(element.id)
-
+# ids = [(country.id , country.country_name) for country in choices_]
 
 class ImageForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)
-    country = forms.MultipleChoiceField(label='Country', choices=ids)
+    country = forms.MultipleChoiceField(label='Country', choices=choices_)
     image = forms.ImageField()
 
 class CountryForm(forms.Form):
@@ -23,7 +21,7 @@ class CountryForm(forms.Form):
 class PostForm(forms.Form):
     author = forms.CharField(label='Author', max_length=100)
     post_title = forms.CharField(label='Post title', max_length=100)
-    post_text = forms.CharField(label='Post text', max_length=100)
+    post_text = forms.CharField(label='Post text', max_length=3000)
     release_date = forms.DateField(label= 'Release date', initial=datetime.date.today)
-    country = forms.MultipleChoiceField(label= 'Country', choices=ids)
+    country = forms.MultipleChoiceField(label= 'Country', choices=choices_)
 
