@@ -4,6 +4,9 @@ from blog.models import Post, Country, Image
 from blog.forms import PostForm, CountryForm, ImageForm
 import datetime
 
+choices_ = Country.objects.all()
+choices__ = {country.id: country.country_name for country in choices_}
+
 def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
@@ -20,8 +23,6 @@ def index(request):
 
 def create_post(request):
     post_form = PostForm()
-    choices_ = Country.objects.all()
-    choices__ = {country.id: country.country_name for country in choices_}
     (print("choices VIEW"))
     print("post-method-not-success")  
     if request.method == 'POST':
@@ -63,6 +64,7 @@ def edit_post(request, post_id):
 def create_country(request):
     if request.method == 'POST':
         country_form = CountryForm(request.POST)
+        print(country_form.is_valid())
         if country_form.is_valid():
             country_name_ = country_form.cleaned_data['country_name']
             capital_ = country_form.cleaned_data['capital']
@@ -77,8 +79,6 @@ def create_country(request):
 
 def upload_image(request):
     image_form = ImageForm()
-    choices_ = image_form.fields['country'].choices
-    choices = {country.id: country.country_name for country in choices_} 
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES)  
         print(image_form)  
@@ -90,15 +90,16 @@ def upload_image(request):
             image = Image(title=title_, img=img_, country_name=country_)
             image.save()
     return render(request, 'blog/upload-image.html', {'image_form': image_form,
-                                                     'choices': choices})
+                                                     'choices': choices__})
 
 def boot(request):
     return render(request, 'blog/boot.html')
 
 def load_post(request, post_id):
     post = Post.objects.get(pk=post_id)
+    image = Image.objects.filter(country_name=post.country_name)[0]
     context = {'post': post,
-               }
+                'image': image}
     return render(request, 'blog/load-post.html', context)
 
 

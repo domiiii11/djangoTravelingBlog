@@ -14,7 +14,7 @@ choices__ = [(country.id , country.country_name) for country in choices_]
 
 class ImageForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)
-    country = forms.MultipleChoiceField(label='Country', choices=choices_)
+    country = forms.MultipleChoiceField(label='Country', choices=choices__)
     image = forms.ImageField()
 
 class CountryForm(forms.Form):

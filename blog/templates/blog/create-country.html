@@ -77,8 +77,8 @@
             <div class="row g-3">
               <div class="col-12">
                 <label for="{{ country_form.country_name.id_for_label }}" class="form-label">Country</label>
-                <input type="text" class="form-control" id="{{ country_form.country_name.id_for_label }}"
-                  placeholder="Iceland" required>
+                <input type="text" class="form-control" name="country_name" maxlength="100" required
+                  id="{{ country_form.country_name.id_for_label }}" placeholder="Iceland">
                 <div class="invalid-feedback">
                   Contry name is required.
                 </div>
@@ -86,16 +86,16 @@
             </div>
             <div class="col-12 mb-3">
               <label for="{{ country_form.capital.id_for_label}}" class="form-label">Capital</label>
-              <input type="text" class="form-control" id="{{ country_form.capital.id_for_labe}}" placeholder="Reykjavik"
-                required>
+              <input type="text" class="form-control" name="capital" maxlength="100" required
+                id="{{ country_form.capital.id_for_labe}}" placeholder="Reykjavik">
               <div class="invalid-feedback">
                 Please enter post title.
               </div>
             </div>
             <div class="col-12 mb-3">
               <label for="{{ county_form.places_to_visit.id_for_label }}" class="form-label">Places to visit</label>
-              <input type="text" class="form-control" id="{{ county_form.places_to_visit.id_for_label }}"
-                placeholder="National Museum of Iceland" required>
+              <input type="text" class="form-control" name="places_to_visit" maxlength="100" required
+                id="{{ county_form.places_to_visit.id_for_label }}" placeholder="National Museum of Iceland">
               <div class="invalid-feedback">
                 Please enter your favourite places to visit.
               </div>
@@ -106,13 +106,13 @@
                 <a href="{{ create_url }}" class="btn btn-secondary my-2">Go back to post creation</a>
               </p>
             </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a country!</button>
+
+            {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+          </form>
         </div>
       </div>
-      <hr class="my-4">
-      <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a country!</button>
-
-      {% comment %} <input type="submit" value="Submit"> {% endcomment %}
-      </form>
   </div>
   </main>
 
@@ -127,13 +127,15 @@
       <li class="list-inline-item"><a href="#">Support</a></li>
     </ul>
   </footer>
-  </div>
-  <script src="{% static 'blog/bootstrap/js/bootstrap.bundle.min.js' %}"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
-  <script src="{% static 'blog/js/form-validation.js' %}"></script>
-</body>
+</div>
+{% load static %}
+<script src="{% static 'blog/bootstrap/js/bootstrap.bundle.min.js' %}"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+</script>
 
+<script src="{% static 'blog/js/form-validation.js' %}"></script>
+
+</body>
 
 </html>
 {% endblock bootstrap5_after_content %}

@@ -74,32 +74,33 @@
 
       <div class="row g-5">
         <div class="col-md-7 col-lg-8">
-          <form class="needs-validation" novalidate action="" method="post">
+          <form class="needs-validation" novalidate action="" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
             <div class="row g-3">
               <div class="col-12 mb-3">
-                <label for="{{ image_form.title.id_for_label }}" class="form-label">Title</label>
-                <input type="text" class="form-control" id="{{ image_form.title.id_for_label }}"
+                <label for="{{ image_form.title.id_for_label }}" class="form-label" maxlength="100" required>Title</label>
+                <input type="text" class="form-control" name="title" id="{{ image_form.title.id_for_label }}"
                   placeholder="It's me near Niagara Falls.">
                 <div class="invalid-feedback">
                   Image title is required.
                 </div>
               </div>
             </div>
-            <div class="col-12 mb-3">
-              <label for="{{ image_form.country.id_for_label }}" class="form-label">Choose country where image was
-                taken.</label>
-              <select class="form-select" id="{{ image_form.country.id_for_label }}" required>
-                {% for number, choice in choices.items %}
-                <option value="{{number}}">{{choice}}</option>
-                {% endfor%}
-              </select>
-              <div class="invalid-feedback">
-                Please select a country where image was taken.
+            <div class="row g-3">
+              <div class="col-12 mb-3">
+                <label for="{{ image_form.country.id_for_label }}" class="form-label">Choose country where image was
+                  <select class="form-select" name="country" id="{{ image_form.country.id_for_label }}" required>
+                  {% for number, country in choices.items %}
+                  <option value="{{number}}">{{country}}</option>
+                  {% endfor%}
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid country.
+                </div>
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="file" class="form-control" id="inputGroupFile02">
+              <input type="file" name="image" class="form-control" id="inputGroupFile02" required>
               <label class="input-group-text" for="inputGroupFile02">Upload</label>
             </div>
             <div class="col-md-5 mb-3">
