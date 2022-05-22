@@ -7,11 +7,13 @@ app_name = 'blog'
 
 urlpatterns = [
     path("",views.index, name="main"),
-    path("create/", views.create_post, name="create"),
-    path("edit/<int:post_id>", views.edit_post, name="edit"),
-    path("posts/<int:post_id>", views.post, name="post"),
-    path("boostrap/", views.boostrap, name="boostrap"),
-    path("scss-style/", views.scss, name="scss-style")
+    path("create-post/", views.create_post, name="create-post"),
+    path("create-country/", views.create_country, name="create-country"),
+    path("upload-image/", views.upload_image, name="upload-image"),
+    path("edit-post/<int:post_id>", views.edit_post, name="edit"),
+    path("post/<int:post_id>", views.load_post, name="post"),   
+    path("scss-style/", views.scss, name="scss-style"),
+    path("boot/", views.boot, name="boot"),
     
 ]
 
