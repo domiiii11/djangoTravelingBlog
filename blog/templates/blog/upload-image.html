@@ -66,9 +66,10 @@
   <div class="container">
     <main>
       <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h2>Create post</h2>
-        <p class="lead">Below prefil all fealds and create a post about your adventure.</p>
+        <img class="d-block mx-auto mb-4" src="https://img.icons8.com/stickers/100/000000/image.png" alt="" width="72"
+          height="57">
+        <h2>Upload image</h2>
+        <p class="lead">Upload photos from your vocation destination</p>
       </div>
 
       <div class="row g-5">
@@ -101,20 +102,20 @@
               <input type="file" class="form-control" id="inputGroupFile02">
               <label class="input-group-text" for="inputGroupFile02">Upload</label>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5 mb-3">
               <p>
                 {% url 'blog:create-post' as create_url %}
-                <a href="{{ create_url }}" class="btn btn-secondary my-2">Go back to post creation.</a>
+                <a href="{{ create_url }}" class="btn btn-secondary my-2">Go back to post creation</a>
               </p>
             </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a post!</button>
+            {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+          </form>
         </div>
-        <hr class="my-4">
-        <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a post!</button>
-        {% comment %} <input type="submit" value="Submit"> {% endcomment %}
-        </form>
       </div>
-  </div>
 
+  </div>
   </main>
 
   {% endblock bootstrap5_content %}

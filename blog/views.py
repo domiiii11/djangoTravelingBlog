@@ -2,7 +2,7 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from blog.models import Post, Country, Image
 from blog.forms import PostForm, CountryForm, ImageForm
-
+import datetime
 
 def index(request):
     posts = Post.objects.order_by('release_date')
@@ -20,23 +20,26 @@ def index(request):
 
 def create_post(request):
     post_form = PostForm()
-    choices_ = post_form.fields['country'].choices
-    choices = {country.id: country.country_name for country in choices_}  
+    choices_ = Country.objects.all()
+    choices__ = {country.id: country.country_name for country in choices_}
+    (print("choices VIEW"))
+    print("post-method-not-success")  
     if request.method == 'POST':
         post_form = PostForm(request.POST)
-        country_form = CountryForm(request.POST)
-        image_form = ImageForm(request.POST, request.FILES)
+        print("post-method-success")
+        print(post_form.is_valid())
         if post_form.is_valid():
-            author_ = post_form.cleaned_data['author']
+            author_ = post_form['author']
             post_title_ = post_form.cleaned_data['post_title']
             post_text_ = post_form.cleaned_data['post_text']
             release_date_ = post_form.cleaned_data['release_date']
-            country_ = post_form.cleaned_data['country']
-            post = Post(author=author_, post_title=post_title_, post_text=post_text_,
-                        release_date=release_date_, country_name=country_)
+            country_id = post_form.cleaned_data['country']
+            country_ = Country.objects.get(id=int(country_id[0]))
+            post = Post(author=author_, post_title=post_title_, post_text=post_text_, release_date=release_date_,
+                        country_name=country_)
             post.save()
     return render(request, 'blog/create-post.html', {'post_form': post_form,
-                                                     'choices': choices})
+                                                     'choices': choices__})
 
                                                      
 def edit_post(request, post_id):
@@ -48,9 +51,9 @@ def edit_post(request, post_id):
             particular_object.post_title = form.cleaned_data['post_title']
             particular_object.post_text = form.cleaned_data['post_text']
             particular_object.release_date = form.cleaned_data['release_date']
-            country = Country(country_name="Greece", capital="Athens", places_to_visit="Cafes and restarants")
-            country.save()
-            particular_object.country_name = country
+            country_id = form.cleaned_data['country']
+            country_ = Country.objects.get(id=int(country_id[0]))
+            particular_object.country_name = country_
             particular_object.save()
     else:
         form = PostForm()

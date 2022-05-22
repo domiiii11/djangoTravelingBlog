@@ -64,8 +64,9 @@
   <div class="container">
     <main>
       <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h2>Register new country.</h2>
+        <img class="d-block mx-auto mb-4" src="https://img.icons8.com/dusk/64/000000/country.png" alt="" width="72"
+          height="57">
+        <h2>Register new country</h2>
         <p class="lead">Below prefil all fealds and create a destination country for your post.</p>
       </div>
 
@@ -83,7 +84,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 mb-3">
               <label for="{{ country_form.capital.id_for_label}}" class="form-label">Capital</label>
               <input type="text" class="form-control" id="{{ country_form.capital.id_for_labe}}" placeholder="Reykjavik"
                 required>
@@ -91,7 +92,7 @@
                 Please enter post title.
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 mb-3">
               <label for="{{ county_form.places_to_visit.id_for_label }}" class="form-label">Places to visit</label>
               <input type="text" class="form-control" id="{{ county_form.places_to_visit.id_for_label }}"
                 placeholder="National Museum of Iceland" required>
@@ -99,18 +100,19 @@
                 Please enter your favourite places to visit.
               </div>
             </div>
-        </div>
-        <hr class="my-4">
-        <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a country!</button>
-        {% comment %} <input type="submit" value="Submit"> {% endcomment %}
-        </form>
-        <div class="col-12">
-          <p>
-            {% url 'blog:create-post' as create_url %}
-            <a href="{{ create_url }}" class="btn btn-secondary my-2">Come back to creation of new post</a>
-          </p>
+            <div class="col-md-6 mb-3">
+              <p>
+                {% url 'blog:create-post' as create_url %}
+                <a href="{{ create_url }}" class="btn btn-secondary my-2">Go back to post creation</a>
+              </p>
+            </div>
         </div>
       </div>
+      <hr class="my-4">
+      <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a country!</button>
+
+      {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+      </form>
   </div>
   </main>
 
@@ -131,6 +133,7 @@
   </script>
   <script src="{% static 'blog/js/form-validation.js' %}"></script>
 </body>
+
 
 </html>
 {% endblock bootstrap5_after_content %}
