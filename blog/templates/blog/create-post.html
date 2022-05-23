@@ -113,21 +113,21 @@
             </div>
             <div class="row g-3">
               <div class="col-md-5 mb-3">
-                <label for="{{ post_form.country.id_for_label }}" class="form-label">Country</label>
-                <select class="form-select" name="country" id="{{ post_form.country.id_for_label }}" required>
-                  {% for number, country in choices.items %}
-                  <option value="{{number}}">{{country}}</option>
+                <label for="{{ post_form.place_to_visit.id_for_label }}" class="form-label">Country</label>
+                <select class="form-select" name="place_to_visit" id="{{ post_form.place_to_visit.id_for_label }}" required>
+                  {% for number, place_to_visit in choices.items %}
+                  <option value="{{number}}">{{place_to_visit}}</option>
                   {% endfor%}
                 </select>
                 <div class="invalid-feedback">
-                  Please select a valid country.
+                  Please select a valid place to visit.
                 </div>
               </div>
             </div>
             <div class="col-md-5 mb-3">
               <p>
-                {% url 'blog:create-country' as create_url %}
-                <a href="{{ create_url }}" class="btn btn-secondary my-2">Register new country</a>
+                {% url 'blog:create-place-to-visit' as create_url %}
+                <a href="{{ create_url }}" class="btn btn-secondary my-2">Register new place to visit</a>
               </p>
               <p>
                 {% url 'blog:upload-image' as upload_url %}

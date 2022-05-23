@@ -64,10 +64,10 @@
   <div class="container">
     <main>
       <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="https://img.icons8.com/dusk/64/000000/country.png" alt="" width="72"
+        <img class="d-block mx-auto mb-4" src="https://img.icons8.com/dusk/64/000000/place_to_visit.png" alt="" width="72"
           height="57">
-        <h2>Register new country</h2>
-        <p class="lead">Below prefil all fealds and create a destination country for your post.</p>
+        <h2>Register new place_to_visit</h2>
+        <p class="lead">Below prefil all fealds and create a destination place to visit for your post.</p>
       </div>
 
       <div class="row g-5">
@@ -76,18 +76,18 @@
             {% csrf_token %}
             <div class="row g-3">
               <div class="col-12">
-                <label for="{{ country_form.country_name.id_for_label }}" class="form-label">Country</label>
-                <input type="text" class="form-control" name="country_name" maxlength="100" required
-                  id="{{ country_form.country_name.id_for_label }}" placeholder="Iceland">
+                <label for="{{ place_to_visit_form.place_to_visit_name.id_for_label }}" class="form-label">Country</label>
+                <input type="text" class="form-control" name="place_to_visit_name" maxlength="100" required
+                  id="{{ place_to_visit_form.place_to_visit_name.id_for_label }}" placeholder="Iceland">
                 <div class="invalid-feedback">
                   Contry name is required.
                 </div>
               </div>
             </div>
             <div class="col-12 mb-3">
-              <label for="{{ country_form.capital.id_for_label}}" class="form-label">Capital</label>
+              <label for="{{ place_to_visit_form.capital.id_for_label}}" class="form-label">Capital</label>
               <input type="text" class="form-control" name="capital" maxlength="100" required
-                id="{{ country_form.capital.id_for_labe}}" placeholder="Reykjavik">
+                id="{{ place_to_visit_form.capital.id_for_labe}}" placeholder="Reykjavik">
               <div class="invalid-feedback">
                 Please enter post title.
               </div>
@@ -107,7 +107,7 @@
               </p>
             </div>
             <hr class="my-4">
-            <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a country!</button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit"> Save new place to visit!</button>
 
             {% comment %} <input type="submit" value="Submit"> {% endcomment %}
           </form>
