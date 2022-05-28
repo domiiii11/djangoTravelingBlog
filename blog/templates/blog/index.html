@@ -35,9 +35,7 @@ get_static_prefix %} {%block title_bar%}
       </p>
       <p>
         {% url 'blog:create-post' as create_url %}
-        <a href="{{ create_url }}" class="btn btn-secondary my-2"
-          >Create a post</a
-        >
+        <a href="{{ create_url }}" class="btn btn-secondary my-2">Create a post</a>
       </p>
     </div>
   </div>
@@ -57,7 +55,7 @@ get_static_prefix %} {%block title_bar%}
             height="100%"
           />
           <div class="card-body">
-            <p class="card-text">{{key.post_text}}</p>
+            <p class="card-text">{{key.post_title}}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -65,7 +63,7 @@ get_static_prefix %} {%block title_bar%}
                   <a href="{{ post_url }}">View</a>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                  {% url 'blog:edit-post' key.id as post_url %}
+                  {% url 'blog:edit' key.id as post_url %}
                   <a href="{{ post_url }}">Edit</a>
                 </button>
               </div>

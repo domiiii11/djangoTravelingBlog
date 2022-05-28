@@ -5,13 +5,14 @@ from blog.forms import PostForm, PlaceToVisitForm, ImageForm
 import datetime
 
 choices_ = PlaceToVisit.objects.all()
-choices__ = {place_to_visit.id: place_to_visit.place_to_visit_name for place_to_visit in choices_}
+choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
 def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
-        images = Image.objects.filter(place_to_visit_name=post.place_to_visit_name)
+        images = Image.objects.filter(places_to_visit=post.places_to_visit)
+        print(images)
         image_list = [image for image in images]
         if image_list:
             posts_dictionary[post] = image_list[0]
@@ -30,35 +31,43 @@ def create_post(request):
         print("post-method-success")
         print(post_form.is_valid())
         if post_form.is_valid():
-            author_ = post_form['author']
+            author_ = post_form.cleaned_data['author']
             post_title_ = post_form.cleaned_data['post_title']
             post_text_ = post_form.cleaned_data['post_text']
             release_date_ = post_form.cleaned_data['release_date']
             place_to_visit_id = post_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
             post = Post(author=author_, post_title=post_title_, post_text=post_text_, release_date=release_date_,
-                        place_to_visit_name=place_to_visit_)
+                        places_to_visit=place_to_visit_)
             post.save()
     return render(request, 'blog/create-post.html', {'post_form': post_form,
                                                      'choices': choices__})
 
+def load_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    image = Image.objects.filter(places_to_visit=post.places_to_visit)[0]
+    context = {'post': post,
+                'image': image}
+    return render(request, 'blog/load-post.html', context)
                                                      
 def edit_post(request, post_id):
+    post_form = PostForm()
+    old_post_object = Post.objects.get(pk=post_id)
+    print(old_post_object.author)
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            particular_object = Post.objects.get(pk=post_id)
-            particular_object.author = form.cleaned_data['author']
-            particular_object.post_title = form.cleaned_data['post_title']
-            particular_object.post_text = form.cleaned_data['post_text']
-            particular_object.release_date = form.cleaned_data['release_date']
-            place_to_visit_id = form.cleaned_data['place_to_visit']
+        post_form = PostForm(request.POST)
+        if post_form.is_valid():
+            old_post_object.author = post_form.cleaned_data['author']
+            old_post_object.post_title = post_form.cleaned_data['post_title']
+            old_post_object.post_text = post_form.cleaned_data['post_text']
+            old_post_object.release_date = post_form.cleaned_data['release_date']
+            place_to_visit_id = post_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            particular_object.place_to_visit_name = place_to_visit_
-            particular_object.save()
-    else:
-        form = PostForm()
-    return render(request, 'blog/edit.html', {'form': form})
+            old_post_object.place_to_visit_name = place_to_visit_
+            old_post_object.save()
+    return render(request, 'blog/edit.html', {'old_post_object': old_post_object,
+                                            'post_form': post_form,
+                                            'choices': choices__})
 
 
 def create_place_to_visit(request):
@@ -66,11 +75,9 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm(request.POST)
         print(place_to_visit_form.is_valid())
         if place_to_visit_form.is_valid():
-            place_to_visit_name_ = place_to_visit_form.cleaned_data['place_to_visit_name']
-            capital_ = place_to_visit_form.cleaned_data['capital']
-            places_to_visit_ = place_to_visit_form.cleaned_data['places_to_visit']
-            place_to_visit = PlaceToVisit(place_to_visit_name=place_to_visit_name_,
-                              capital=capital_, places_to_visit=places_to_visit_)
+            country_name_ = place_to_visit_form.cleaned_data['country_name']
+            places_to_visit_ = place_to_visit_form.cleaned_data['place_to_visit']
+            place_to_visit = PlaceToVisit(country_name=country_name_, places_to_visit=places_to_visit_)
             place_to_visit.save()
     else:
         place_to_visit_form = PlaceToVisitForm()
@@ -87,7 +94,7 @@ def upload_image(request):
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
             img_ = image_form.cleaned_data.get('image')
-            image = Image(title=title_, img=img_, place_to_visit_name=place_to_visit_)
+            image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
     return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                      'choices': choices__})
@@ -95,12 +102,7 @@ def upload_image(request):
 def boot(request):
     return render(request, 'blog/boot.html')
 
-def load_post(request, post_id):
-    post = Post.objects.get(pk=post_id)
-    image = Image.objects.filter(place_to_visit_name=post.place_to_visit_name)[0]
-    context = {'post': post,
-                'image': image}
-    return render(request, 'blog/load-post.html', context)
+
 
 
 def scss(request):

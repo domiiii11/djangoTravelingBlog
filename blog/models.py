@@ -9,7 +9,7 @@ class PlaceToVisit(models.Model):
     
     
     def __str__(self):
-        return self.capital  
+        return self.places_to_visit  
 
 class Post(models.Model):
     author = models.CharField(max_length=300)
