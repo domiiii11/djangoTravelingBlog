@@ -1,5 +1,10 @@
-{% extends 'blog/base.html' %} {% load bootstrap5 %} 
-{% block bootstrap5_content%} {%block title_bar%}
+{% extends 'blog/base1.html' %}
+
+{% block head %}
+    {{ block.super }}
+{% endblock head %}
+
+{% block main %}
 
 <section class="py-5 text-center container">
   <div class="row py-lg-5">
@@ -18,8 +23,6 @@
   </div>
 </section>
 
-{% endblock title_bar%} 
-{% block card %}
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-3">
@@ -50,4 +53,8 @@
   </div>
 </div>
 
-{% endblock card%} {% endblock bootstrap5_content %}
+{% endblock main %}
+{% block footer %}
+  {{block.super}}
+
+{% endblock footer %}

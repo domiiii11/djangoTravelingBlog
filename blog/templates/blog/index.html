@@ -1,30 +1,12 @@
-{% extends 'blog/base.html' %} {% load bootstrap5 %} {% block bootstrap5_extra_head %}
+{% extends 'blog/base1.html' %}
 
-<style>
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
+{% block head %}
+    {{ block.super }}
+{% endblock head %}
 
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }
-</style>
-{% load static %} 
-{% load compress %} {% compress css %}
-<link
-  type="text/x-scss"
-  href="{% static 'index.scss' %}"
-  rel="stylesheet"
-  media="screen">
-{% endcompress %} {% endblock bootstrap5_extra_head %} 
- {%
-get_static_prefix %} {%block title_bar%}
+{% block main %} 
+
+{%block title_bar%}
 
 <section id="aa" class="py-5 text-center container heading-style">
   <div class="row py-lg-5">
@@ -77,3 +59,9 @@ get_static_prefix %} {%block title_bar%}
   </div>
 </div>
 {% endblock card%}
+
+{% endblock main %}
+{% block footer %}
+  {{block.super}}
+
+{% endblock footer %}

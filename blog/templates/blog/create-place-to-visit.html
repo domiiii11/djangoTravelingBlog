@@ -72,6 +72,7 @@
         {% csrf_token %}
         <div class="row">
           <div class="col-12 mb-3">
+           <div class="col-12 mb-3">
             <label for="{{ place_to_visit_form.place_to_visit.id_for_label }}" class="form-label">Place to
               visit</label>
             <input type="text" class="form-control" name="place_to_visit" maxlength="100" required
@@ -99,6 +100,7 @@
 
           {% comment %} <input type="submit" value="Submit"> {% endcomment %}
 
+        </div>
         </div>
       </form>
     </main>
