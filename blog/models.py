@@ -14,7 +14,7 @@ class PlaceToVisit(models.Model):
 class Post(models.Model):
     author = models.CharField(max_length=300)
     post_title = models.CharField(max_length=300)
-    post_text = models.CharField(max_length=300)
+    post_text = models.CharField(max_length=5000)
     release_date = models.DateTimeField()
     places_to_visit = models.ForeignKey(PlaceToVisit, on_delete=models.CASCADE)
     

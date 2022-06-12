@@ -12,26 +12,15 @@
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
 
-   
-
-
-
-  <!-- Bootstrap core CSS -->
-  {% load static %}
-  <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-  <!-- Validation css -->
-  {% load static %}
-  <link href="{% static 'blog/css/form-validation.css' %}" rel="stylesheet">
-
-  <!-- Bootstrap core SCSS -->
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+    <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   
-  {% load static %}    
-  {% load compress %}    
-  {% compress css %}
-  <link type="text/x-scss" href="{% static 'index.scss' %}" rel="stylesheet" media="screen">
-  {% endcompress %}
+    <!-- Validation css -->
+    <link href="{% static 'blog/css/form-validation.css' %}" rel="stylesheet">
+  
+    <!-- Bootstrap core SCSS -->
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -43,9 +32,7 @@
   <meta name="theme-color" content="#7952b3">
 
 
-  <script type="text/javascript"
-    src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Dd5H6VdJcon4NnwhWiiIOpslvMfk3ZDYPN-dRWCyYNOd5JeNmEVEnMhUUmOrRCeEtalVCQ9Cjjh94QUhnfNaOr0ZpYcW7gJ580FPa0uQpoc"
-    charset="UTF-8"></script>
+
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
@@ -61,11 +48,36 @@
       }
     }
   </style>
+ 
 
-
+  {% endblock head %}
 </head>
 
-{% endblock head %}
+
+{% block header %} 
+<div class="container">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+      <span class="fs-4">My traveling blog</span>
+    </a>
+    <ul class="nav nav-pills">
+      {% url 'blog:main' as main_url %}
+      <li class="nav-item"><a href="{{ main_url }}" class="nav-link active" aria-current="page">Home</a></li>
+      {% url 'blog:create-post' as create_post_url %}
+      <li class="nav-item"><a href="{{ create_post_url }}" class="nav-link" aria-current="page">Create post</a></li>
+      {% url 'blog:upload-image' as upload_url %}
+      <li class="nav-item"><a href="{{ upload_url }}" class="nav-link">Upload images</a></li>
+      {% url 'blog:create-place-to-visit' as create_url %}
+      <li class="nav-item"><a href="{{ create_url}}" class="nav-link">Add new places</a></li>
+    </ul>
+  </header>
+</div>
+{% endblock header %}
+</header>
+
+
+
 
 {% block main %}
 
@@ -73,13 +85,16 @@
 {% endblock main %}
 
 {% block footer %}
+
 <footer class="my-5 pt-5 text-muted text-center text-small">
-  <p class="mb-1">&copy; 2017–2021 Company Name</p>
-  <ul class="list-inline">
-    <li class="list-inline-item"><a href="#">Privacy</a></li>
-    <li class="list-inline-item"><a href="#">Terms</a></li>
-    <li class="list-inline-item"><a href="#">Support</a></li>
-  </ul>
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <ul class="list-inline">
+    <li class="mb-5">This beautiful styling made using &copy; Bootstrap. Checkout out them <a href="/docs/5.1/getting-started/introduction/">here!</a></li>
+    </ul>
+  </div>
 </footer>
 </div>
 
@@ -87,7 +102,8 @@
 <script src="{% static 'blog/bootstrap/js/bootstrap.bundle.min.js' %}"
   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 </script>
-<script src="form-validation.js"></script>
+{% load static %}
+<script src="{% static 'blog/js/form-validation.js' %}"></script>
 
 {% endblock footer %}
 </body>
