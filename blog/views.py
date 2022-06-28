@@ -4,14 +4,14 @@ from blog.models import Post, Country, Image
 from blog.forms import PostForm, CountryForm, ImageForm
 import datetime
 
-# choices_ = Country.objects.all()
-# choices__ = {country.id: country.country_name for country in choices_}
+choices_ = Country.objects.all()
+choices__ = {country.id: country.country_name for country in choices_}
 
 def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
-        images = []
+        images = Image.objects.filter(country_name=post.country_name)
         image_list = [image for image in images]
         if image_list:
             posts_dictionary[post] = image_list[0]
@@ -40,7 +40,7 @@ def create_post(request):
                         country_name=country_)
             post.save()
     return render(request, 'blog/create-post.html', {'post_form': post_form,
-                                                     'choices': ()})
+                                                     'choices': choices__})
 
                                                      
 def edit_post(request, post_id):
@@ -90,7 +90,7 @@ def upload_image(request):
             image = Image(title=title_, img=img_, country_name=country_)
             image.save()
     return render(request, 'blog/upload-image.html', {'image_form': image_form,
-                                                     'choices': ()})
+                                                     'choices': choices__})
 
 def boot(request):
     return render(request, 'blog/boot.html')

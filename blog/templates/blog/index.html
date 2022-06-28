@@ -1,4 +1,6 @@
-{% extends 'blog/base.html' %} {% load bootstrap5 %} {% block bootstrap5_extra_head %}
+{% extends 'blog/base.html' %} 
+{% load bootstrap5 %} 
+{% block bootstrap5_extra_head %}
 
 <style>
   .bd-placeholder-img {
@@ -43,7 +45,8 @@ get_static_prefix %} {%block title_bar%}
   </div>
 </section>
 
-{%endblock title_bar%} {% block card%}
+{%endblock title_bar%} 
+{% block card%}
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
