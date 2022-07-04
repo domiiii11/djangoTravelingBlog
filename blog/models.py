@@ -6,8 +6,7 @@ from django.utils import timezone
 class PlaceToVisit(models.Model):    
     places_to_visit = models.CharField(max_length=300)
     country_name = models.CharField(max_length=300)
-    
-    
+        
     def __str__(self):
         return self.places_to_visit  
 

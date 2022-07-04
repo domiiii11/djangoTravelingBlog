@@ -11,9 +11,11 @@ def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
+        print(post.date)
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
-        print(images)
+        # images = Image.objects.all()
         image_list = [image for image in images]
+        print(image_list)
         if image_list:
             posts_dictionary[post] = image_list[0]
         else:
