@@ -19,6 +19,6 @@ class PostForm(forms.Form):
     author = forms.CharField(label='Author', max_length=100)
     post_title = forms.CharField(label='Post title', max_length=100)
     post_text = forms.CharField(label='Post text', max_length=3000)
-    release_date = forms.DateField(label='Release date', initial=datetime.date.today)
+    # release_date = forms.DateField(label='Release date', initial=datetime.date.today)
     place_to_visit = forms.MultipleChoiceField(label='Place to visit', choices=choices__)
 

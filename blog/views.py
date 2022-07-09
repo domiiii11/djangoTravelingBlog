@@ -3,6 +3,10 @@ from django.shortcuts import render
 from blog.models import Post, PlaceToVisit, Image
 from blog.forms import PostForm, PlaceToVisitForm, ImageForm
 import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
 
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
@@ -11,7 +15,7 @@ def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
-        print(post.date)
+        print(post)
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
         # images = Image.objects.all()
         image_list = [image for image in images]
@@ -36,10 +40,9 @@ def create_post(request):
             author_ = post_form.cleaned_data['author']
             post_title_ = post_form.cleaned_data['post_title']
             post_text_ = post_form.cleaned_data['post_text']
-            release_date_ = post_form.cleaned_data['release_date']
             place_to_visit_id = post_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            post = Post(author=author_, post_title=post_title_, post_text=post_text_, release_date=release_date_,
+            post = Post(author=author_, post_title=post_title_, post_text=post_text_,
                         places_to_visit=place_to_visit_)
             post.save()
     return render(request, 'blog/create-post.html', {'post_form': post_form,
@@ -62,35 +65,34 @@ def edit_post(request, post_id):
             old_post_object.author = post_form.cleaned_data['author']
             old_post_object.post_title = post_form.cleaned_data['post_title']
             old_post_object.post_text = post_form.cleaned_data['post_text']
-            old_post_object.release_date = post_form.cleaned_data['release_date']
             place_to_visit_id = post_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
             old_post_object.place_to_visit_name = place_to_visit_
             old_post_object.save()
-    return render(request, 'blog/edit.html', {'old_post_object': old_post_object,
-                                            'post_form': post_form,
-                                            'choices': choices__})
+            return HttpResponseRedirect(reverse('blog:main'))
+    else:        
+        return render(request, 'blog/edit.html', {'old_post_object': old_post_object,
+                                                'post_form': post_form,
+                                                'choices': choices__})
 
 
 def create_place_to_visit(request):
     if request.method == 'POST':
         place_to_visit_form = PlaceToVisitForm(request.POST)
-        print(place_to_visit_form.is_valid())
         if place_to_visit_form.is_valid():
             country_name_ = place_to_visit_form.cleaned_data['country_name']
             places_to_visit_ = place_to_visit_form.cleaned_data['place_to_visit']
             place_to_visit = PlaceToVisit(country_name=country_name_, places_to_visit=places_to_visit_)
             place_to_visit.save()
+            return HttpResponseRedirect(reverse('blog:main'))
     else:
         place_to_visit_form = PlaceToVisitForm()
-        print(place_to_visit_form)
     return render(request, 'blog/create-place-to-visit.html', {'place_to_visit_form': place_to_visit_form})
 
 def upload_image(request):
     image_form = ImageForm()
     if request.method == 'POST':
-        image_form = ImageForm(request.POST, request.FILES)  
-        print(image_form)  
+        image_form = ImageForm(request.POST, request.FILES) 
         if image_form.is_valid():
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
@@ -98,7 +100,9 @@ def upload_image(request):
             img_ = image_form.cleaned_data.get('image')
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
-    return render(request, 'blog/upload-image.html', {'image_form': image_form,
+            return HttpResponseRedirect(reverse('blog:main'))
+    else:
+        return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                      'choices': choices__})
 
 def boot(request):
@@ -109,3 +113,4 @@ def boot(request):
 
 def scss(request):
     return render(request, 'blog/indexc.html')
+
