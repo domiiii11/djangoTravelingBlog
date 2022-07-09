@@ -31,7 +31,6 @@ class Image(models.Model):
     img = models.ImageField(upload_to="media/")
     places_to_visit = models.ForeignKey(PlaceToVisit, on_delete=models.CASCADE)
 
-    # upload files to MEDIA_ROOT / images /
 
     def __str__(self):
         return self.title        

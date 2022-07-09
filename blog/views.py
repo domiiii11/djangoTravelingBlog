@@ -17,7 +17,6 @@ def index(request):
     for post in posts:
         print(post)
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
-        # images = Image.objects.all()
         image_list = [image for image in images]
         print(image_list)
         if image_list:
@@ -50,9 +49,11 @@ def create_post(request):
 
 def load_post(request, post_id):
     post = Post.objects.get(pk=post_id)
-    image = Image.objects.filter(places_to_visit=post.places_to_visit)[0]
+    images = Image.objects.filter(places_to_visit=post.places_to_visit)
+    image_list = [image for image in images]
+    print(images)
     context = {'post': post,
-                'image': image}
+                'images': image_list}
     return render(request, 'blog/load-post.html', context)
                                                      
 def edit_post(request, post_id):
