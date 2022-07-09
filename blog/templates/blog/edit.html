@@ -1,62 +1,85 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/base1.html' %}
 
-{% load bootstrap5 %}
+{% block head %}
+{{ block.super }}
+{% endblock head %}
 
+{% block main %}
 
-{% block bootstrap5_content %}
-
-{%block title_bar%}
-<section class="py-5 text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light">Domile's page</h1>
-      <p class="lead text-muted">It is fake traveling blog page. Bon aptetit! </p>
-      <p>
-        {% url 'blog:main' as main_url %}
-        <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
-        {% url 'blog:create' as create_url %}
-        <a href="{{ create_url }}" class="btn btn-secondary my-2">Create a post</a>
-      </p>
-    </div>
-  </div>
-</section>
-
-
-{%endblock title_bar%}
-
-{% block card%}
-<div class="album py-5 bg-light">
+<body class="bg-light">
   <div class="container">
-
-    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-3">
-
-      {% load static %}
-      {% get_static_prefix as STATIC_PREFIX %}
-
-
-      <div class="col">
-        <div class="card shadow-sm">
-          <img src="{{STATIC_PREFIX}}blog/images/post.id}}.jpg" alt="My image" width="100%" height="100%">
-          <div class="card-body">
-            <p class="card-text">
-              <form action="" method="post">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit">
-              </form>
-            </p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+    <main>
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4"
+          src="https://img.icons8.com/external-filled-outline-lima-studio/64/000000/external-post-social-media-filled-outline-lima-studio-2.png"
+          alt="" width="72" height="57">
+        <h2>Edit post</h2>
+        <p class="lead">Below prefil all fealds and edit a post about your adventure.</p>
+      </div>
+      <form class="needs-validation" action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-12 mb-3">
+            <div class="col-12 mb-3">
+              <label for="{{ post_form.author.id_for_label }}" class="form-label">Author</label>
+              <input type="text" class="form-control" name="author" maxlength="100" required
+                id="{{ post_form.author.id_for_label }}" placeholder="{{old_post_object.author}}">
+              <div class="invalid-feedback">
+                Author name is required.
               </div>
-              <small class="text-muted">9 mins</small>
             </div>
+            <div class="col-12 mb-3">
+              <label for="{{ post_form.post_title.id_for_label}}" class="form-label">Post title</label>
+              <input type="text" class="form-control" name="post_title" maxlength="100" required
+                id="{{ post_form.post_title.id_for_label}}" placeholder="{{old_post_object.post_title}}">
+              <div class="invalid-feedback">
+                Please enter post title.
+              </div>
+            </div>
+
+            <div class="col-12 mb-3">
+              <label for="{{ post_form.post_text.id_for_label }}" class="form-label">Post text</label>
+              <input type="text" class="form-control" name="post_text" maxlength="3000" required
+                id="{{ post_form.post_text.id_for_label }}" placeholder="{{old_post_object.post_text}}">
+              <div class="invalid-feedback">
+                Please enter your post text.
+              </div>
+            </div>
+           
+            <div class="row g-3">
+              <div class="col-md-5 mb-3">
+                <label for="{{ post_form.place_to_visit.id_for_label }}" class="form-label">Place to visit</label>
+                <select class="form-select" name="place_to_visit" id="{{ post_form.place_to_visit.id_for_label }}"
+                  required>
+                  {% for number, place_to_visit in choices.items %}
+                  <option value="{{number}}">{{place_to_visit}}</option>
+                  {% endfor%}
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid place to visit.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 mb-3">
+              <p>
+                {% url 'blog:create-place-to-visit' as create_url %}
+                <a href="{{ create_url }}" class="btn btn-secondary my-2">Register new place to visit</a>
+              </p>
+              <p>
+                {% url 'blog:upload-image' as upload_url %}
+                <a href="{{ upload_url }}" class="btn btn-secondary my-2">Upload images</a>
+              </p>
+            </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a post!</button>
           </div>
         </div>
-      </div>
-    </div>
+      </form>
+    </main>
   </div>
-</div>
-{% endblock card %}
-{% endblock bootstrap5_content %}
+</body>
+{% endblock main %}
+{% block footer %}
+{{block.super}}
+
+{% endblock footer %}

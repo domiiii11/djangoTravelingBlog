@@ -1,64 +1,12 @@
-{% extends 'blog/form.html' %}
-{% load bootstrap5 %}
-{% block bootstrap5_extra_head %}
+{% extends 'blog/base1.html' %}
+
+{% block head %}
 {{ block.super }}
-{% endblock bootstrap5_extra_head  %}
+{% endblock head %}
 
-{% block bootstrap5_before_content %}
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Hugo 0.88.1">
-  <title>Checkout example · Bootstrap v5.1</title>
-
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-
-
-  <!-- Bootstrap core CSS -->
-  {% load static %}
-  <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-  <!-- Favicons -->
-  <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
-  <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-  <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
-  <meta name="theme-color" content="#7952b3">
-
-
-
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-
-  <!-- Custom styles for this template -->
-  {% load static %}
-  <link href="{% static 'blog/css/form-validation.css' %}" rel="stylesheet">
-</head>
-{% endblock bootstrap5_before_content %}
-
-{% block bootstrap5_content %}
+{% block main %}
 
 <body class="bg-light">
-
   <div class="container">
     <main>
       <div class="py-5 text-center">
@@ -68,64 +16,54 @@
         <h2>Create post</h2>
         <p class="lead">Below prefil all fealds and create a post about your adventure.</p>
       </div>
-
-      <div class="row g-5">
-        <div class="col-md-7 col-lg-8">
-          <form class="needs-validation" action="" method="post" novalidate>
-            {% csrf_token %}
-            <div class="row g-3">
-              <div class="col-12 mb-3">
-                <label for="{{ post_form.author.id_for_label }}" class="form-label">Author</label>
-                <p> {{post_form.author.id_for_label}} </p>
-                <input type="text" class="form-control" name="author" maxlength="100" required id="{{ post_form.author.id_for_label }}"
-                  placeholder="Mr./ Mrs./ Ms. Adventurous">
-                <div class="invalid-feedback">
-                  Author name is required.
-                </div>
+      <form class="needs-validation" action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-12 mb-3">
+            <div class="col-12 mb-3">
+              <label for="{{ post_form.author.id_for_label }}" class="form-label">Author</label>
+              <input type="text" class="form-control" name="author" maxlength="100" required
+                id="{{ post_form.author.id_for_label }}" placeholder="Mr./ Mrs./ Ms. Adventurous">
+              <div class="invalid-feedback">
+                Author name is required.
               </div>
             </div>
             <div class="col-12 mb-3">
               <label for="{{ post_form.post_title.id_for_label}}" class="form-label">Post title</label>
-              <input type="text" class="form-control" name="post_title" maxlength="100" required id="{{ post_form.post_title.id_for_label}}"
+              <input type="text" class="form-control" name="post_title" maxlength="100" required
+                id="{{ post_form.post_title.id_for_label}}"
                 placeholder="The best place to make all your dreams come true!">
               <div class="invalid-feedback">
                 Please enter post title.
               </div>
             </div>
-
             <div class="col-12 mb-3">
               <label for="{{ post_form.post_text.id_for_label }}" class="form-label">Post text</label>
-              <input type="text" class="form-control" name="post_text" maxlength="3000" required id="{{ post_form.post_text.id_for_label }}"
+              <input type="text" class="form-control" name="post_text" maxlength="15000" required
+                id="{{ post_form.post_text.id_for_label }}"
                 placeholder="Our day started from 5 a.m. in the morning, but it was worth it...">
               <div class="invalid-feedback">
                 Please enter your post text.
               </div>
             </div>
-            <div class="col-12 mb-3">
-              <label for="{{ post_form.release_date.id_for_label }}" class="form-label">Post date</label>
-              <input type="text" class="form-control" name="release_date" required id="{{post_form.release_date.id_for_label}}"
-                required>
-              <div class="invalid-feedback">
-                Please enter post date.
-              </div>
-            </div>
             <div class="row g-3">
               <div class="col-md-5 mb-3">
-                <label for="{{ post_form.country.id_for_label }}" class="form-label">Country</label>
-                <select class="form-select" name="country" id="{{ post_form.country.id_for_label }}" required>
-                  {% for number, country in choices.items %}
-                  <option value="{{number}}">{{country}}</option>
+                <label for="{{ post_form.place_to_visit.id_for_label }}" class="form-label">Place to visit</label>
+                <select class="form-select" name="place_to_visit" id="{{ post_form.place_to_visit.id_for_label }}"
+                  required>
+                  {% for number, place_to_visit in choices.items %}
+                  <option value="{{number}}">{{place_to_visit}}</option>
                   {% endfor%}
                 </select>
                 <div class="invalid-feedback">
-                  Please select a valid country.
+                  Please select a valid place to visit.
                 </div>
               </div>
             </div>
             <div class="col-md-5 mb-3">
               <p>
-                {% url 'blog:create-country' as create_url %}
-                <a href="{{ create_url }}" class="btn btn-secondary my-2">Register new country</a>
+                {% url 'blog:create-place-to-visit' as create_url %}
+                <a href="{{ create_url }}" class="btn btn-secondary my-2">Register new place to visit</a>
               </p>
               <p>
                 {% url 'blog:upload-image' as upload_url %}
@@ -134,32 +72,14 @@
             </div>
             <hr class="my-4">
             <button class="w-100 btn btn-primary btn-lg" type="submit"> Save a post!</button>
-            </form>
+          </div>
         </div>
-      </div>
-
-  </div>
+      </form>
   </main>
+</div>
 
-  {% endblock bootstrap5_content %}
-  {% block bootstrap5_after_content %}
+  {% endblock main %}
+  {% block footer %}
+  {{block.super}}
 
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2017–2021 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
-  </footer>
-  </div>
-  {% load static %}
-  <script src="{% static 'blog/bootstrap/js/bootstrap.bundle.min.js' %}"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
-  <script src="{% static 'blog/js/form-validation.js' %}"></script>
-
-</body>
-
-</html>
-{% endblock bootstrap5_after_content %}
+  {% endblock footer %}

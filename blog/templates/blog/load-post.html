@@ -1,25 +1,11 @@
-{% extends 'blog/base.html' %} {% load bootstrap5 %} 
-{% block bootstrap5_content%} {%block title_bar%}
+{% extends 'blog/base1.html' %}
 
-<section class="py-5 text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light">Domile's page</h1>
-      <p class="lead text-muted">My fake traveling blog page.</p>
-      <p>
-        {% url 'blog:main' as main_url %}
-        <a href="{{ main_url }}" class="btn btn-primary my-2">Main page</a>
-        {% url 'blog:create' as create_url %}
-        <a href="{{ create_url }}" class="btn btn-secondary my-2"
-          >Create a post</a
-        >
-      </p>
-    </div>
-  </div>
-</section>
+{% block head %}
+    {{ block.super }}
+{% endblock head %}
 
-{% endblock title_bar%} 
-{% block card %}
+{% block main %}
+
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 g-3">
@@ -28,7 +14,7 @@
       <div class="col">
         <div class="card shadow-sm">
           <img
-            src="/{{ BASIC_DIR }}/{{0.img}}"
+            src="{{image.img.url}}"
             alt="My image"
             width="100%"
             height="100%"
@@ -38,10 +24,12 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                  View
+                  {% url 'blog:edit' post.id as post_url %}
+                  <a href="{{ post_url }}">Edit</a>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                  Edit
+                  {% url 'blog:main' as main_url %}
+                  <a href="{{ main_url }}">Go back</a>
                 </button>
               </div>
               <small class="text-muted">9 mins</small>
@@ -53,4 +41,8 @@
   </div>
 </div>
 
-{% endblock card%} {% endblock bootstrap5_content %}
+{% endblock main %}
+{% block footer %}
+  {{block.super}}
+
+{% endblock footer %}
