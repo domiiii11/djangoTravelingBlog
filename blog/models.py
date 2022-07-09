@@ -14,12 +14,13 @@ class Post(models.Model):
     author = models.CharField(max_length=300)
     post_title = models.CharField(max_length=300)
     post_text = models.CharField(max_length=5000)
-    release_date = models.DateTimeField()
+    release_date = models.DateTimeField(auto_now=True)
     places_to_visit = models.ForeignKey(PlaceToVisit, on_delete=models.CASCADE)
     
 
     def __str__(self):
-        return self.post_text
+        date = str(self.release_date)
+        return date
 
     def was_published_recently(self):
         return self.release_date >= timezone.now() - datetime.timedelta(days=1)
