@@ -1,6 +1,7 @@
 from django.urls import path
 from blog import views
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 app_name = 'blog'
 
@@ -13,6 +14,9 @@ urlpatterns = [
     path("post/<int:post_id>", views.load_post, name="post"),   
     path("scss-style/", views.scss, name="scss-style"),
     path("boot/", views.boot, name="boot"),
+    path("login/", views.user_login, name='login'),
+    path("logout/", views.user_logout, name='login'),
+
     
 ]
 

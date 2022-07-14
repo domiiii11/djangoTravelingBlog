@@ -65,6 +65,8 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 # URL that handles the media served from MEDIA_ROOT, used for managing stored files.
 ROOT_URLCONF = 'mysite2.urls'
+# default URL for login
+LOGIN_URL = 'blog:login'
 
 TEMPLATES = [
     {

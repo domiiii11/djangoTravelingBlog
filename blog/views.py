@@ -5,12 +5,15 @@ from blog.forms import PostForm, PlaceToVisitForm, ImageForm
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import redirect
 
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
+
+@login_required
 def index(request):
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
@@ -26,7 +29,7 @@ def index(request):
     context = {'posts_dictionary': posts_dictionary}
     return render(request, "blog/index.html", context)
 
-
+@login_required
 def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
@@ -46,7 +49,7 @@ def create_post(request):
             post.save()
     return render(request, 'blog/create-post.html', {'post_form': post_form,
                                                      'choices': choices__})
-
+@login_required
 def load_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     images = Image.objects.filter(places_to_visit=post.places_to_visit)
@@ -55,7 +58,8 @@ def load_post(request, post_id):
     context = {'post': post,
                 'images': image_list}
     return render(request, 'blog/load-post.html', context)
-                                                     
+
+@login_required                                                     
 def edit_post(request, post_id):
     post_form = PostForm()
     old_post_object = Post.objects.get(pk=post_id)
@@ -76,7 +80,7 @@ def edit_post(request, post_id):
                                                 'post_form': post_form,
                                                 'choices': choices__})
 
-
+@login_required
 def create_place_to_visit(request):
     if request.method == 'POST':
         place_to_visit_form = PlaceToVisitForm(request.POST)
@@ -90,6 +94,7 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm()
     return render(request, 'blog/create-place-to-visit.html', {'place_to_visit_form': place_to_visit_form})
 
+@login_required
 def upload_image(request):
     image_form = ImageForm()
     if request.method == 'POST':
@@ -106,12 +111,36 @@ def upload_image(request):
         return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                      'choices': choices__})
 
+@login_required
 def boot(request):
     return render(request, 'blog/boot.html')
 
 
 
-
+@login_required
 def scss(request):
     return render(request, 'blog/indexc.html')
 
+def user_login(request):
+    if request.method == 'POST':
+        username_ = request.POST['username']
+        print(username_)
+        password_ = request.POST['password']
+        print(password_)
+        user = authenticate(request, username=username_, password=password_)
+        if user is not None:
+            print(user)
+            login(request, user)
+            return HttpResponseRedirect(reverse('blog:main'))
+        else:
+            wrong_data = "Wrong username or password."
+            return render(request, 'blog/login.html',{'wrong-data': wrong_data})
+    else:
+        return render(request, 'blog/login.html')
+
+def user_logout(request):
+    logout(request)
+
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
