@@ -1,20 +1,24 @@
-from django.http import HttpResponseNotFound
+from django.http import HttpRequest
 from django.shortcuts import render
 from blog.models import Post, PlaceToVisit, Image
 from blog.forms import PostForm, PlaceToVisitForm, ImageForm
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from django.conf import settings
+from django.utils import timezone
 
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
-
+today = str(timezone.now())[0:3]
 
 @login_required
 def index(request):
+    current_user = request.user
+    print(current_user.id)
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
@@ -111,15 +115,6 @@ def upload_image(request):
         return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                      'choices': choices__})
 
-@login_required
-def boot(request):
-    return render(request, 'blog/boot.html')
-
-
-
-@login_required
-def scss(request):
-    return render(request, 'blog/indexc.html')
 
 def user_login(request):
     if request.method == 'POST':
@@ -134,13 +129,18 @@ def user_login(request):
             return HttpResponseRedirect(reverse('blog:main'))
         else:
             wrong_data = "Wrong username or password."
-            return render(request, 'blog/login.html',{'wrong-data': wrong_data})
+  
+            return render(request, 'blog/blog-login.html')
     else:
-        return render(request, 'blog/login.html')
+        return render(request, 'blog/blog-login.html')
 
 def user_logout(request):
     logout(request)
+    return render(request, 'blog/blog-login.html')
 
-def my_view(request):
+
+def authentication(request):
     if not request.user.is_authenticated:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        return redirect('blog:login')
+    else:
+        return HttpResponse("Hello, You are logged in.")

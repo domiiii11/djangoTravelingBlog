@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'bootstrap5',
     'compressor',
     'sass_processor'
 ]
@@ -169,9 +168,9 @@ COMPRESS_PRECOMPILERS = ( ('text/x-scss', 'django_libsass.SassCompiler'),)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Settings for django-bootstrap-v5
-BOOTSTRAP5 = {
-    "error_css_class": "bootstrap5-error",
-    "required_css_class": "bootstrap5-required",
-    "javascript_in_head": True,
-}
+# # Settings for django-bootstrap-v5
+# BOOTSTRAP5 = {
+#     "error_css_class": "bootstrap5-error",
+#     "required_css_class": "bootstrap5-required",
+#     "javascript_in_head": True,
+# }
