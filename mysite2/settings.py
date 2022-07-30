@@ -13,10 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import sys
-<<<<<<< HEAD
 from datetime import timedelta
-=======
->>>>>>> 9e4ef35de82772cd57f332ad8e11f92bb8d1936b
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +34,7 @@ if BOOTSTRAP5_FOLDER not in sys.path:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -156,14 +153,6 @@ STATIC_URL = 'static/'
 # this url links to static root there all static files are collected, then we use it in our htmlwit {static /dfs/sdfsf/sdf}
 
 SASS_PROCESSOR_ROOT = STATIC_ROOT
-# directory where all our static assets will live same as STATIC_ROOT
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')     
-    ]
-#static finders finds static files from this location basedir/static and form all apps static
-
-print(os.path.join(BASE_DIR, 'static')),
-print(os.path.join(BASE_DIR, 'blog')) 
 
 # List of finder classes that know how to find static files in
 # various locations.
