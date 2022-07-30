@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import sys
+<<<<<<< HEAD
 from datetime import timedelta
+=======
+>>>>>>> 9e4ef35de82772cd57f332ad8e11f92bb8d1936b
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
