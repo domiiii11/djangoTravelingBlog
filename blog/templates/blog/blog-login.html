@@ -3,6 +3,11 @@
   {{ block.super }}
 {% endblock head %}
 {% block main %}
+{% for message in messages %}
+    <div class="message {{ message.tags }}">
+        {{ message }}
+    </div>
+{% endfor %}   
 <body class="text-center">
   <form class="form-signin" action="" method="post" novalidate>
     {% csrf_token %}

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import sys
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,7 +58,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
+
+# logout after 10 minutes of downtime
+AUTO_LOGOUT = { 'IDLE_TIME': timedelta(minutes=10),
+                'MESSAGE': 'The session has expired. Please login again to continue.',
+                'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+                }
+
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 # media_root - it is absolute path there all collected
@@ -79,7 +88,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'django_auto_logout.context_processors.auto_logout_client',
             ],
         },
     },

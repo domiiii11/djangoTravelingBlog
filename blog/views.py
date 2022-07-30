@@ -10,6 +10,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.conf import settings
 from django.utils import timezone
+from django.contrib.auth.signals import user_logged_out
+from django.dispatch import receiver
+from django.contrib import messages
+
+# @receiver(user_logged_out)
+# def on_user_logged_out(sender, request, **kwargs):
+#     messages.add_message(request, messages.INFO, 'Your session has expired please log in again to continue.')
 
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
@@ -136,7 +143,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return render(request, 'blog/blog-login.html')
+    return HttpResponseRedirect(reverse('blog:login'))    
 
 
 def authentication(request):
