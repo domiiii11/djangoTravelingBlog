@@ -14,6 +14,15 @@ from pathlib import Path
 import os
 import sys
 from datetime import timedelta
+import environ
+import dj_database_url
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env("SECRET_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,6 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,16 +110,32 @@ WSGI_APPLICATION = 'mysite2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+SECRET_KEY = env("SECRET_KEY")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blogdata1',
-        'USER': 'postgres',
-        'PASSWORD': '123456789',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        # 'PASSWORD': env("DATABASE_PASSWORD"),
+        # 'HOST': env("DATABASE_HOST"),
+        # 'PORT': env("DATABASE_PORT"),
+        # 'CONN_MAX_AGE': 600,         
     }
 }
+
+
+MAX_CONN_AGE=600
+
+
+if "DATABASE_URL" in os.environ:
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE, ssl_require=False)
+
+    # Enable test database if found in CI environment.
+    if "CI" in os.environ:
+        DATABASES["default"]["TEST"] = DATABASES["default"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -144,7 +170,7 @@ USE_TZ = True
 #https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
-STATIC_ROOT = 'staticstatic/'
+STATIC_ROOT = 'static-files/'
 #location there where all static files are collected
 
 
@@ -176,3 +202,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "required_css_class": "bootstrap5-required",
 #     "javascript_in_head": True,
 # }
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
+STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra lookup directories for collectstatic to find static files
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
