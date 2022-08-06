@@ -43,7 +43,7 @@ if BOOTSTRAP5_FOLDER not in sys.path:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['django-traveling-blog.herokuapp.com']
 
 # Application definition
 
@@ -126,6 +126,7 @@ DATABASES = {
 
 
 MAX_CONN_AGE=600
+
 
 
 if "DATABASE_URL" in os.environ:
