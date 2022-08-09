@@ -184,10 +184,10 @@ STATIC_URL = 'static/'
 # this url links to static root there all static files are collected, then we use it in our html with {static /dfs/sdfsf/sdf}
 
 # Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-print(STATICFILES_DIRS + "STATICFILES_DIRS")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')     
+    ]
+
 
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
