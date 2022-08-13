@@ -18,8 +18,8 @@ from django.contrib import messages
 # def on_user_logged_out(sender, request, **kwargs):
 #     messages.add_message(request, messages.INFO, 'Your session has expired please log in again to continue.')
 
-# choices_ = PlaceToVisit.objects.all()
-# choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
+choices_ = PlaceToVisit.objects.all()
+choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
 
 choices__ = {}
