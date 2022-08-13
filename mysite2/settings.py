@@ -22,7 +22,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = env("app_key")
+SECRET_KEY = env("SECRET_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #C:\Users\PC\Documents\PYTHON\djangoTravelingBlog
