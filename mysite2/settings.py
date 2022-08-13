@@ -25,8 +25,10 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+#C:\Users\PC\Documents\PYTHON\djangoTravelingBlog
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+print(str(BASE_DIR) + "BASE_DIR")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -43,7 +45,8 @@ if BOOTSTRAP5_FOLDER not in sys.path:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['django-traveling-blog.herokuapp.com',
+                '127.0.0.1']
 
 # Application definition
 
@@ -60,8 +63,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -167,16 +170,27 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-#https://docs.djangoproject.com/en/4.0/howto/static-files/
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+
+#c:\Users\PC\Documents\PYTHON\djangoTravelingBlog\mysite2\settings.py
 
 
 STATIC_ROOT = 'static-files/'
+
 #location there where all static files are collected
 
-
-
 STATIC_URL = 'static/' 
-# this url links to static root there all static files are collected, then we use it in our htmlwit {static /dfs/sdfsf/sdf}
+# this url links to static root there all static files are collected, then we use it in our html with {static /dfs/sdfsf/sdf}
+
+# Extra lookup directories for collectstatic to find static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')     
+    ]
+
+
+#  Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 SASS_PROCESSOR_ROOT = STATIC_ROOT
 
@@ -203,16 +217,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "javascript_in_head": True,
 # }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
-
-# Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-
-#  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
