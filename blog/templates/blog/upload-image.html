@@ -2,6 +2,8 @@
 
 {% block head %}
     {{ block.super }}
+
+
 {% endblock head %}
 
 {% block main %}
@@ -62,5 +64,7 @@
   {% endblock main %}
   {% block footer %}
     {{block.super}}
-
+    <script src="{% static 'blog/js/file-transfer-s3.js' %}">    
+    </script>
+  
   {% endblock footer %}
