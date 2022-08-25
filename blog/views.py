@@ -21,9 +21,6 @@ from django.contrib import messages
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
-
-choices__ = {}
-
 today = str(timezone.now())[0:3]
 
 @login_required
