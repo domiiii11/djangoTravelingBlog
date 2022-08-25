@@ -64,6 +64,7 @@
   {% endblock main %}
   {% block footer %}
     {{block.super}}
+    {% load static %}
     <script src="{% static 'blog/js/file-transfer-s3.js' %}">    
     </script>
   
