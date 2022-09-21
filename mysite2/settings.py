@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'compressor',
-    'sass_processor'
+    'sass_processor',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -189,8 +190,8 @@ STATICFILES_DIRS = [
     ]
 
 
-#  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#  Add configuration for static files storage using django-storages
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 SASS_PROCESSOR_ROOT = STATIC_ROOT
 
@@ -217,3 +218,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "javascript_in_head": True,
 # }
 
+DEFAULT_FILE_STORAGE = 'blog.custom_storage.MediaStorage'
+
+AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
+AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+# AWS_S3_SIGNATURE_VERSION = env("AWS_S3_SIGNATURE_VERSION", default="s3v4")
+# AWS_S3_ENDPOINT_URL = env('AWS_S3_ENDPOINT_URL')  
+# AWS_QUERYSTRING_AUTH = False
+
+# https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+# AWS_DEFAULT_ACL = env("AWS_DEFAULT_ACL")
+
+# AWS_PRESIGNED_EXPIRY = env.int("AWS_PRESIGNED_EXPIRY", default=10)  # seconds
+ 

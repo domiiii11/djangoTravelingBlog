@@ -1,18 +1,16 @@
-from django.http import HttpRequest
+import os
 from django.shortcuts import render
 from blog.models import Post, PlaceToVisit, Image
 from blog.forms import PostForm, PlaceToVisitForm, ImageForm
-import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-from django.conf import settings
 from django.utils import timezone
-from django.contrib.auth.signals import user_logged_out
-from django.dispatch import receiver
-from django.contrib import messages
+from django.views import View
+from django.http import JsonResponse
+from blog.custom_storage import MediaStorage
 
 # @receiver(user_logged_out)
 # def on_user_logged_out(sender, request, **kwargs):
@@ -22,6 +20,26 @@ choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
 today = str(timezone.now())[0:3]
+
+@login_required
+def index(request):
+    current_user = request.user
+    print(current_user.id)
+    posts = Post.objects.order_by('release_date')
+    posts_dictionary = {}
+    for post in posts:
+        print(post)
+        images = Image.objects.filter(places_to_visit=post.places_to_visit)
+        image_list = [image for image in images]
+        print(image_list)
+        if image_list:
+            posts_dictionary[post] = image_list[0]
+        else:
+            posts_dictionary[post] = None
+    context = {'posts_dictionary': posts_dictionary}
+    return render(request, "blog/index.html", context)
+
+
 
 @login_required
 def index(request):
@@ -106,23 +124,43 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm()
     return render(request, 'blog/create-place-to-visit.html', {'place_to_visit_form': place_to_visit_form})
 
+# @login_required
+# def upload_image(request):
+#     image_form = ImageForm()
+#     if request.method == 'POST':
+#         image_form = ImageForm(request.POST, request.FILES) 
+#         if image_form.is_valid():
+#             title_ = image_form.cleaned_data['title']
+#             place_to_visit_id = image_form.cleaned_data['place_to_visit']
+#             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
+#             img_ = image_form.cleaned_data.get('image')
+#             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
+#             image.save()
+#             return HttpResponseRedirect(reverse('blog:main'))
+#     else:
+#         return render(request, 'blog/upload-image.html', {'image_form': image_form,
+#                                                      'choices': choices__})
+
+
 @login_required
 def upload_image(request):
+    upload_view = FileUploadView()
     image_form = ImageForm()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES) 
         if image_form.is_valid():
+            url_json = upload_view.post(request)
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            img_ = image_form.cleaned_data.get('image')
+            img_ = image_form.cleaned_data.get('image')            
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
             return HttpResponseRedirect(reverse('blog:main'))
     else:
         return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                      'choices': choices__})
-
+    
 
 def user_login(request):
     if request.method == 'POST':
@@ -152,3 +190,40 @@ def authentication(request):
         return redirect('blog:login')
     else:
         return HttpResponse("Hello, You are logged in.")
+
+class FileUploadView(View):
+    def post(self, requests, **kwargs):
+        file_obj = requests.FILES.get('image', '')
+
+        # do your validation here e.g. file size/type check
+
+        # organize a path for the file in bucket
+        file_directory_within_bucket = 'user_upload_files/{username}'.format(username=requests.user)
+
+        # synthesize a full file path; note that we included the filename
+        file_path_within_bucket = os.path.join(
+            file_directory_within_bucket,
+            file_obj.name
+        )
+
+        media_storage = MediaStorage()
+
+        if not media_storage.exists(file_path_within_bucket): # avoid overwriting existing file
+            media_storage.save(file_path_within_bucket, file_obj)
+            file_url = media_storage.url(file_path_within_bucket)
+
+            return JsonResponse({
+                'message': 'OK',
+                'fileUrl': file_url,
+            })
+        else:
+            return JsonResponse({
+                'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
+                    filename=file_obj.name,
+                    file_directory=file_directory_within_bucket,
+                    bucket_name=media_storage.bucket_name
+                ),
+            }, status=400)
+
+
+# def retrieve_image(self, url):
