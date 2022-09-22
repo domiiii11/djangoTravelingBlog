@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views import View
 from django.http import JsonResponse
 from blog.custom_storage import MediaStorage
+from django.core.files.storage import default_storage
 
 # @receiver(user_logged_out)
 # def on_user_logged_out(sender, request, **kwargs):
@@ -21,39 +22,25 @@ choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visi
 
 today = str(timezone.now())[0:3]
 
+
 @login_required
 def index(request):
+    print("AAAA")
     current_user = request.user
     print(current_user.id)
+    # files = retrieve_image(request, 'media/')
+    # print(files)
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
         print(post)
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
         image_list = [image for image in images]
-        print(image_list)
+        first_image = image_list[0]
+        image_url = first_image.url
+        print(image_url)
         if image_list:
-            posts_dictionary[post] = image_list[0]
-        else:
-            posts_dictionary[post] = None
-    context = {'posts_dictionary': posts_dictionary}
-    return render(request, "blog/index.html", context)
-
-
-
-@login_required
-def index(request):
-    current_user = request.user
-    print(current_user.id)
-    posts = Post.objects.order_by('release_date')
-    posts_dictionary = {}
-    for post in posts:
-        print(post)
-        images = Image.objects.filter(places_to_visit=post.places_to_visit)
-        image_list = [image for image in images]
-        print(image_list)
-        if image_list:
-            posts_dictionary[post] = image_list[0]
+            posts_dictionary[post] = first_image
         else:
             posts_dictionary[post] = None
     context = {'posts_dictionary': posts_dictionary}
@@ -148,12 +135,12 @@ def upload_image(request):
     image_form = ImageForm()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES) 
-        if image_form.is_valid():
-            url_json = upload_view.post(request)
+        if image_form.is_valid():            
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            img_ = image_form.cleaned_data.get('image')            
+            img_ = image_form.cleaned_data.get('image')
+            upload_view.post(request)           
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
             return HttpResponseRedirect(reverse('blog:main'))
@@ -226,4 +213,8 @@ class FileUploadView(View):
             }, status=400)
 
 
-# def retrieve_image(self, url):
+def retrieve_image(self, name):
+    image = default_storage.listdir(name)
+    print(image)
+    return image
+
