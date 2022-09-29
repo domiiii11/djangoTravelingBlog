@@ -219,6 +219,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 DEFAULT_FILE_STORAGE = 'blog.custom_storage.MediaStorage'
+print(DEFAULT_FILE_STORAGE)
 
 AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")

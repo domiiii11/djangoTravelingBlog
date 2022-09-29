@@ -12,6 +12,7 @@ from django.views import View
 from django.http import JsonResponse
 from blog.custom_storage import MediaStorage
 from django.core.files.storage import default_storage
+import boto3
 
 # @receiver(user_logged_out)
 # def on_user_logged_out(sender, request, **kwargs):
@@ -20,7 +21,33 @@ from django.core.files.storage import default_storage
 choices_ = PlaceToVisit.objects.all()
 choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
+
 today = str(timezone.now())[0:3]
+
+def create_presigned_url(bucket_name, object_name, expiration=3600):
+    """Generate a presigned URL to share an S3 object
+
+    :param bucket_name: string
+    :param object_name: string
+    :param expiration: Time in seconds for the presigned URL to remain valid
+    :return: Presigned URL as string. If error, returns None.
+    """
+
+    # Generate a presigned URL for the S3 object
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.generate_presigned_url('get_object',
+                                                    Params={'Bucket': bucket_name,
+                                                            'Key': object_name},
+                                                    ExpiresIn=expiration)
+    except ClientError as e:
+        logging.error(e)
+        return None
+
+    # The response contains the presigned URL
+    return response
+
+
 
 
 @login_required
@@ -28,8 +55,6 @@ def index(request):
     print("AAAA")
     current_user = request.user
     print(current_user.id)
-    # files = retrieve_image(request, 'media/')
-    # print(files)
     posts = Post.objects.order_by('release_date')
     posts_dictionary = {}
     for post in posts:
@@ -37,10 +62,12 @@ def index(request):
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
         image_list = [image for image in images]
         first_image = image_list[0]
-        image_url = first_image.url
+        image_url = first_image.img.url[47:] 
+        image_url_ = create_presigned_url("django-blog-bucket112", image_url)
+        print(image_url)       
         print(image_url)
         if image_list:
-            posts_dictionary[post] = first_image
+            posts_dictionary[post] = image_url_
         else:
             posts_dictionary[post] = None
     context = {'posts_dictionary': posts_dictionary}
@@ -50,7 +77,8 @@ def index(request):
 def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
-    print("post-method-not-success")  
+    print("post-method-not-success")
+    print(choices__)
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         print("post-method-success")
@@ -64,16 +92,18 @@ def create_post(request):
             post = Post(author=author_, post_title=post_title_, post_text=post_text_,
                         places_to_visit=place_to_visit_)
             post.save()
+
     return render(request, 'blog/create-post.html', {'post_form': post_form,
                                                      'choices': choices__})
 @login_required
 def load_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     images = Image.objects.filter(places_to_visit=post.places_to_visit)
-    image_list = [image for image in images]
-    print(images)
+    image_url_list = [image.img.url[47:] for image in images]
+    image_presigned_url_ = [create_presigned_url("django-blog-bucket112", image_url) for image_url in image_url_list]
+    print(image_presigned_url_)
     context = {'post': post,
-                'images': image_list}
+                'images': image_presigned_url_}
     return render(request, 'blog/load-post.html', context)
 
 @login_required                                                     
@@ -213,8 +243,11 @@ class FileUploadView(View):
             }, status=400)
 
 
-def retrieve_image(self, name):
-    image = default_storage.listdir(name)
-    print(image)
-    return image
+# def retrieve_image(url, parameters    
+#     media_storage = MediaStorage()
+#     file_url = media_storage.url(name="IMG_20210821_104612.jpg", parameters={'Bucket': bucket_name,
+#                                                             'Key': "IMG_20210821_104612.jpg"},expire=3600, http_method="get_object")
+#     print(file_url)
+#     return file_url
+
 
