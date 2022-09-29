@@ -61,12 +61,11 @@ def index(request):
         print(post)
         images = Image.objects.filter(places_to_visit=post.places_to_visit)
         image_list = [image for image in images]
-        first_image = image_list[0]
-        image_url = first_image.img.url[47:] 
-        image_url_ = create_presigned_url("django-blog-bucket112", image_url)
-        print(image_url)       
-        print(image_url)
         if image_list:
+            first_image = image_list[0]
+            image_url = first_image.img.url[47:] 
+            image_url_ = create_presigned_url("django-blog-bucket112", image_url) 
+            print(image_url)            
             posts_dictionary[post] = image_url_
         else:
             posts_dictionary[post] = None
@@ -161,7 +160,7 @@ def create_place_to_visit(request):
 
 @login_required
 def upload_image(request):
-    upload_view = FileUploadView()
+    # upload_view = FileUploadView()
     image_form = ImageForm()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES) 
@@ -170,7 +169,7 @@ def upload_image(request):
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
             img_ = image_form.cleaned_data.get('image')
-            upload_view.post(request)           
+            # upload_view.post(request)           
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
             return HttpResponseRedirect(reverse('blog:main'))
@@ -208,39 +207,39 @@ def authentication(request):
     else:
         return HttpResponse("Hello, You are logged in.")
 
-class FileUploadView(View):
-    def post(self, requests, **kwargs):
-        file_obj = requests.FILES.get('image', '')
+# class FileUploadView(View):
+#     def post(self, requests, **kwargs):
+#         file_obj = requests.FILES.get('image', '')
 
-        # do your validation here e.g. file size/type check
+#         # do your validation here e.g. file size/type check
 
-        # organize a path for the file in bucket
-        file_directory_within_bucket = 'user_upload_files/{username}'.format(username=requests.user)
+#         # organize a path for the file in bucket
+#         file_directory_within_bucket = 'user_upload_files/{username}'.format(username=requests.user)
 
-        # synthesize a full file path; note that we included the filename
-        file_path_within_bucket = os.path.join(
-            file_directory_within_bucket,
-            file_obj.name
-        )
+#         # synthesize a full file path; note that we included the filename
+#         file_path_within_bucket = os.path.join(
+#             file_directory_within_bucket,
+#             file_obj.name
+#         )
 
-        media_storage = MediaStorage()
+#         media_storage = MediaStorage()
 
-        if not media_storage.exists(file_path_within_bucket): # avoid overwriting existing file
-            media_storage.save(file_path_within_bucket, file_obj)
-            file_url = media_storage.url(file_path_within_bucket)
+#         if not media_storage.exists(file_path_within_bucket): # avoid overwriting existing file
+#             media_storage.save(file_path_within_bucket, file_obj)
+#             file_url = media_storage.url(file_path_within_bucket)
 
-            return JsonResponse({
-                'message': 'OK',
-                'fileUrl': file_url,
-            })
-        else:
-            return JsonResponse({
-                'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
-                    filename=file_obj.name,
-                    file_directory=file_directory_within_bucket,
-                    bucket_name=media_storage.bucket_name
-                ),
-            }, status=400)
+#             return JsonResponse({
+#                 'message': 'OK',
+#                 'fileUrl': file_url,
+#             })
+#         else:
+#             return JsonResponse({
+#                 'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
+#                     filename=file_obj.name,
+#                     file_directory=file_directory_within_bucket,
+#                     bucket_name=media_storage.bucket_name
+#                 ),
+#             }, status=400)
 
 
 # def retrieve_image(url, parameters    
