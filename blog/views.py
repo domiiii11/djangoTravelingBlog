@@ -27,8 +27,7 @@ def create_presigned_url(bucket_name, object_name, expiration=3600):
     """
 
     # Generate a presigned URL for the S3 object
-    s3_client = boto3.client('s3',aws_access_key_id="AKIAZM5DWU7RCO5UEBPV",
-    aws_secret_access_key="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")
+    s3_client = boto3.client('s3')
     try:
         response = s3_client.generate_presigned_url('get_object',
                                                     Params={'Bucket': bucket_name,
