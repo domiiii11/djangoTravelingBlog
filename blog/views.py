@@ -18,8 +18,7 @@ import boto3
 # def on_user_logged_out(sender, request, **kwargs):
 #     messages.add_message(request, messages.INFO, 'Your session has expired please log in again to continue.')
 
-choices_ = PlaceToVisit.objects.all()
-choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
+
 
 
 today = str(timezone.now())[0:3]
@@ -49,7 +48,10 @@ def create_presigned_url(bucket_name, object_name, expiration=3600):
     return response
 
 
-
+def retrieve_places_to_visit():
+    choices_ = PlaceToVisit.objects.all()
+    choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
+    return choices__
 
 @login_required
 def index(request):
@@ -78,7 +80,7 @@ def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
     print("post-method-not-success")
-    print(choices__)
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         print("post-method-success")
@@ -163,14 +165,14 @@ def create_place_to_visit(request):
 def upload_image(request):
     # upload_view = FileUploadView()
     image_form = ImageForm()
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES) 
         if image_form.is_valid():            
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            img_ = image_form.cleaned_data.get('image')
-            # upload_view.post(request)           
+            img_ = image_form.cleaned_data.get('image')        
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
             return HttpResponseRedirect(reverse('blog:main'))
