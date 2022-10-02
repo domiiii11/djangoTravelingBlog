@@ -14,12 +14,6 @@ from blog.custom_storage import MediaStorage
 from django.core.files.storage import default_storage
 import boto3
 
-# @receiver(user_logged_out)
-# def on_user_logged_out(sender, request, **kwargs):
-#     messages.add_message(request, messages.INFO, 'Your session has expired please log in again to continue.')
-
-
-
 
 today = str(timezone.now())[0:3]
 
@@ -143,22 +137,6 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm()
     return render(request, 'blog/create-place-to-visit.html', {'place_to_visit_form': place_to_visit_form})
 
-# @login_required
-# def upload_image(request):
-#     image_form = ImageForm()
-#     if request.method == 'POST':
-#         image_form = ImageForm(request.POST, request.FILES) 
-#         if image_form.is_valid():
-#             title_ = image_form.cleaned_data['title']
-#             place_to_visit_id = image_form.cleaned_data['place_to_visit']
-#             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-#             img_ = image_form.cleaned_data.get('image')
-#             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
-#             image.save()
-#             return HttpResponseRedirect(reverse('blog:main'))
-#     else:
-#         return render(request, 'blog/upload-image.html', {'image_form': image_form,
-#                                                      'choices': choices__})
 
 
 @login_required
