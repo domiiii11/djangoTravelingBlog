@@ -13,13 +13,8 @@ from django.http import JsonResponse
 from blog.custom_storage import MediaStorage
 from django.core.files.storage import default_storage
 import boto3
+import environ
 
-# @receiver(user_logged_out)
-# def on_user_logged_out(sender, request, **kwargs):
-#     messages.add_message(request, messages.INFO, 'Your session has expired please log in again to continue.')
-
-choices_ = PlaceToVisit.objects.all()
-choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
 
 
 today = str(timezone.now())[0:3]
@@ -32,9 +27,14 @@ def create_presigned_url(bucket_name, object_name, expiration=3600):
     :param expiration: Time in seconds for the presigned URL to remain valid
     :return: Presigned URL as string. If error, returns None.
     """
-
+    env = environ.Env()
+    environ.Env.read_env()
+    AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
+    print(AWS_S3_ACCESS_KEY_ID)
+    AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")
+    print(AWS_S3_SECRET_ACCESS_KEY)
     # Generate a presigned URL for the S3 object
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', aws_access_key_id=AWS_S3_ACCESS_KEY_ID, aws_secret_access_key=AWS_S3_SECRET_ACCESS_KEY)
     try:
         response = s3_client.generate_presigned_url('get_object',
                                                     Params={'Bucket': bucket_name,
@@ -48,11 +48,13 @@ def create_presigned_url(bucket_name, object_name, expiration=3600):
     return response
 
 
-
+def retrieve_places_to_visit():
+    choices_ = PlaceToVisit.objects.all()
+    choices__ = {place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in choices_}
+    return choices__
 
 @login_required
 def index(request):
-    print("AAAA")
     current_user = request.user
     print(current_user.id)
     posts = Post.objects.order_by('release_date')
@@ -77,7 +79,7 @@ def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
     print("post-method-not-success")
-    print(choices__)
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         print("post-method-success")
@@ -140,36 +142,20 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm()
     return render(request, 'blog/create-place-to-visit.html', {'place_to_visit_form': place_to_visit_form})
 
-# @login_required
-# def upload_image(request):
-#     image_form = ImageForm()
-#     if request.method == 'POST':
-#         image_form = ImageForm(request.POST, request.FILES) 
-#         if image_form.is_valid():
-#             title_ = image_form.cleaned_data['title']
-#             place_to_visit_id = image_form.cleaned_data['place_to_visit']
-#             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-#             img_ = image_form.cleaned_data.get('image')
-#             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
-#             image.save()
-#             return HttpResponseRedirect(reverse('blog:main'))
-#     else:
-#         return render(request, 'blog/upload-image.html', {'image_form': image_form,
-#                                                      'choices': choices__})
 
 
 @login_required
 def upload_image(request):
     # upload_view = FileUploadView()
     image_form = ImageForm()
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES) 
         if image_form.is_valid():            
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
             place_to_visit_ = PlaceToVisit.objects.get(id=int(place_to_visit_id[0]))
-            img_ = image_form.cleaned_data.get('image')
-            # upload_view.post(request)           
+            img_ = image_form.cleaned_data.get('image')        
             image = Image(title=title_, img=img_, places_to_visit=place_to_visit_)
             image.save()
             return HttpResponseRedirect(reverse('blog:main'))
