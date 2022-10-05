@@ -44,7 +44,7 @@ if BOOTSTRAP5_FOLDER not in sys.path:
     sys.path.insert(0, BOOTSTRAP5_FOLDER)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['django-traveling-blog.herokuapp.com',
                 '127.0.0.1']

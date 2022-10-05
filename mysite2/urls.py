@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from blog import views
 
 urlpatterns = [
-    path('blog/', include("blog.urls")), 
+    path('', include("blog.urls")), 
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
