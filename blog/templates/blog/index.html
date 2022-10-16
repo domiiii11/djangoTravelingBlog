@@ -1,14 +1,16 @@
 {% extends 'blog/base1.html' %}
+{% load thumbnail %}
+
 
 {% block head %}
-    {{ block.super }}
+{{ block.super }}
 {% endblock head %}
 
 {% block header %}
 {{ block.super }}
 {% endblock header %}
 
-{% block main %} 
+{% block main %}
 {{ redirect_to_login_immediately }}
 
 {%block title_bar%}
@@ -26,10 +28,10 @@
       </p>
     </div>
   </div>
-  
+
 </section>
 
-{%endblock title_bar%} 
+{%endblock title_bar%}
 {% block card%}
 <div class="album py-5 bg-light">
   <div class="container">
@@ -37,12 +39,14 @@
       {% for key, value in posts_dictionary.items %}
       <div class="col">
         <div class="card shadow-sm">
-          <img
-            src="{{value}}"
-            alt="My image"
-            width="100%"
-            height="100%"
-          />
+          <img src="{% thumbnail value '1920' as im %}{{ im.url }}{% endthumbnail %}" srcset="
+              {% thumbnail value '544' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+              {% thumbnail value '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+              {% thumbnail value '992' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+              {% thumbnail value '1200' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+              {% thumbnail value '1920' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}" alt="..."
+            sizes="100vw" />
+
           <div class="card-body">
             <p class="card-text">{{key.post_title}}</p>
             <div class="d-flex justify-content-between align-items-center">
@@ -69,6 +73,6 @@
 
 {% endblock main %}
 {% block footer %}
-  {{block.super}}
+{{block.super}}
 
 {% endblock footer %}

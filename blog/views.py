@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from blog.custom_storage import create_presigned_url
+from django.shortcuts import redirect, render
 
 
 def retrieve_places_to_visit():
@@ -27,10 +28,11 @@ def index(request):
         image_list = [image for image in images]
         if image_list:
             first_image = image_list[0]
+            print(first_image.img.url)
             image_url = first_image.img.url[47:]
+            print(image_url)
             image_url_ = create_presigned_url(
                 "django-blog-bucket112", image_url)
-            print(image_url)
             posts_dictionary[post] = image_url_
         else:
             posts_dictionary[post] = None
@@ -131,7 +133,7 @@ def upload_image(request):
             image = Image(title=title_, img=img_,
                           places_to_visit=place_to_visit_)
             image.save()
-            return HttpResponseRedirect(reverse('blog:main'))
+            return redirect(reverse('blog:main'))
     else:
         return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                           'choices': choices__})

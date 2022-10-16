@@ -44,7 +44,7 @@ if BOOTSTRAP5_FOLDER not in sys.path:
     sys.path.insert(0, BOOTSTRAP5_FOLDER)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['django-traveling-blog.herokuapp.com',
                 '127.0.0.1']
@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'blog',
     'compressor',
     'sass_processor',
-    'storages'
+    'storages',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ MIDDLEWARE = [
 ]
 
 # logout after 10 minutes of downtime
-AUTO_LOGOUT = { 'IDLE_TIME': timedelta(minutes=10),
+AUTO_LOGOUT = { 'IDLE_TIME': timedelta(minutes=20),
                 'MESSAGE': 'The session has expired. Please login again to continue.',
                 'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
                 }
