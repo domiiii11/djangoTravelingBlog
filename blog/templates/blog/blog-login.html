@@ -1,20 +1,18 @@
 {% extends 'blog/login.html' %}
 {% block head %}
-  {{ block.super }}
+{{ block.super }}
 {% endblock head %}
 {% block main %}
-{% for message in messages %}
-    <div class="message {{ message.tags }}">
-        {{ message }}
-    </div>
-{% endfor %}   
+
 <body class="text-center">
   <form class="form-signin" action="" method="post" novalidate>
     {% csrf_token %}
-    <img class="mb-4" src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-blog-digital-content-wanicon-lineal-color-wanicon.png" alt="" width="72" height="72">
+    <img class="mb-4"
+      src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-blog-digital-content-wanicon-lineal-color-wanicon.png"
+      alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="username" class="sr-only">Username</label>
-    <input type="text" id="username" name="username"  class="form-control" placeholder="Username" required autofocus>
+    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
     <label for="password" class="sr-only">Password</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
     <div class="checkbox mb-3">
@@ -24,7 +22,15 @@
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-muted">&copy; {% now "Y" %} </p>
+    {% for message in messages %}
+    <p id="log-out-message" class="message {{ message.tags }}">
+      {{ message }}
+    </p>
+    {% endfor %}
   </form>
-</body>
-</html>
-{% endblock main %}  
+  {% endblock main %}
+  {% block footer %}
+  <footer>
+    
+  </footer>
+  {% endblock footer %}
