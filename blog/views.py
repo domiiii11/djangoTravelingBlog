@@ -62,7 +62,7 @@ def create_post(request):
             post.save()
 
     return render(request, 'blog/create-post.html', {'post_form': post_form,
-                                                     'choices': []})
+                                                     'choices': choices__})
 
 
 @login_required
