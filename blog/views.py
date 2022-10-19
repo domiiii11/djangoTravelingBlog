@@ -10,10 +10,7 @@ from django.shortcuts import redirect, render
 
 
 def retrieve_places_to_visit():
-    places_to_visit = PlaceToVisit.objects.all()
-    places_to_visit = {
-        place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in places_to_visit}
-    return places_to_visit
+    return []
 
 
 @login_required
@@ -62,7 +59,7 @@ def create_post(request):
             post.save()
 
     return render(request, 'blog/create-post.html', {'post_form': post_form,
-                                                     'choices': choices__})
+                                                     'choices': []})
 
 
 @login_required
