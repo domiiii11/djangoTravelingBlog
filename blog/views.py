@@ -51,6 +51,8 @@ def create_post(request):
         print("post-method-success")
         print(post_form.is_valid())
         if post_form.is_valid():
+
+            print("AAAA")
             author_ = post_form.cleaned_data['author']
             post_title_ = post_form.cleaned_data['post_title']
             post_text_ = post_form.cleaned_data['post_text']
@@ -60,7 +62,7 @@ def create_post(request):
             post = Post(author=author_, post_title=post_title_, post_text=post_text_,
                         places_to_visit=place_to_visit_)
             post.save()
-
+            return HttpResponseRedirect(reverse('blog:main'))
     return render(request, 'blog/create-post.html', {'post_form': post_form,
                                                      'choices': choices__})
 
@@ -107,7 +109,9 @@ def create_place_to_visit(request):
         place_to_visit_form = PlaceToVisitForm(request.POST)
         if place_to_visit_form.is_valid():
             country_name_ = place_to_visit_form.cleaned_data['country_name']
+            print(country_name_)
             places_to_visit_ = place_to_visit_form.cleaned_data['place_to_visit']
+            print(places_to_visit_)
             place_to_visit = PlaceToVisit(
                 country_name=country_name_, places_to_visit=places_to_visit_)
             place_to_visit.save()
@@ -118,9 +122,7 @@ def create_place_to_visit(request):
 
 
 @login_required
-def upload_image(request):
-    # upload_view = FileUploadView()
-    image_form = ImageForm()
+def upload_image(request):    
     choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES)
@@ -135,5 +137,6 @@ def upload_image(request):
             image.save()
             return redirect(reverse('blog:main'))
     else:
-        return render(request, 'blog/upload-image.html', {'image_form': image_form,
+        image_form = ImageForm()
+    return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                           'choices': choices__})
