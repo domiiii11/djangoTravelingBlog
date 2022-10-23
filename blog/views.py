@@ -122,11 +122,10 @@ def create_place_to_visit(request):
 @login_required
 def upload_image(request):
     # upload_view = FileUploadView()
-    
+    image_form = ImageForm()
     choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES)
-        print(image_form.is_valid())
         if image_form.is_valid():
             title_ = image_form.cleaned_data['title']
             place_to_visit_id = image_form.cleaned_data['place_to_visit']
@@ -137,6 +136,6 @@ def upload_image(request):
                           places_to_visit=place_to_visit_)
             image.save()
             return redirect(reverse('blog:main'))
-    image_form = ImageForm()        
-    return render(request, 'blog/upload-image.html', {'image_form': image_form,
+    else:
+        return render(request, 'blog/upload-image.html', {'image_form': image_form,
                                                           'choices': choices__})
