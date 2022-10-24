@@ -13,13 +13,11 @@ def user_login(request):
         print(password_)
         user = authenticate(request, username=username_, password=password_)
         if user is not None:
-            print(user)
             login(request, user)
             return HttpResponseRedirect(reverse('blog:main'))
         else:
-            wrong_data = "Wrong username or password."
-
-            return render(request, 'blog/blog-login.html')
+            context = {'wrong_data': True}
+            return render(request, 'blog/blog-login.html', context)
     else:
         return render(request, 'blog/blog-login.html')
 
