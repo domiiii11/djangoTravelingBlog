@@ -4,7 +4,8 @@ from blog.models import PlaceToVisit, Post, Image
 import datetime
 
 choices_ = PlaceToVisit.objects.all()
-choices__ = [(place_to_visit.id , place_to_visit.places_to_visit) for place_to_visit in choices_]
+# choices__ = [(place_to_visit.id , place_to_visit.places_to_visit) for place_to_visit in choices_]
+choices__
 
 class ImageForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)

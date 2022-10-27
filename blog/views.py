@@ -45,7 +45,7 @@ def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
     print("post-method-not-success")
-    choices__ = retrieve_places_to_visit()
+    choices__ = []
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         print("post-method-success")
@@ -62,7 +62,7 @@ def create_post(request):
             post.save()
 
     return render(request, 'blog/create-post.html', {'post_form': post_form,
-                                                     'choices': choices__})
+                                                     'choices': choices_})
 
 
 @login_required
@@ -82,7 +82,7 @@ def load_post(request, post_id):
 def edit_post(request, post_id):
     post_form = PostForm()
     old_post_object = Post.objects.get(pk=post_id)
-    choices__ = retrieve_places_to_visit()
+    choices__ = []
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         if post_form.is_valid():
@@ -121,7 +121,7 @@ def create_place_to_visit(request):
 def upload_image(request):
     # upload_view = FileUploadView()
     image_form = ImageForm()
-    choices__ = retrieve_places_to_visit()
+    choices__ = []
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES)
         if image_form.is_valid():
