@@ -118,27 +118,28 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("DATABASE_NAME"),
-        'USER': env("DATABASE_USER"),
-        'HOST': "/tmp/"
-        # 'PASSWORD': env("DATABASE_PASSWORD"),
-        # 'HOST': env("DATABASE_HOST"),
-        # 'PORT': env("DATABASE_PORT"),
-        # 'CONN_MAX_AGE': 600,         
+        'USER': env("DATABASE_USER"),        
+        'HOST': env("DATABASE_HOST"),
+        'PORT': env("DATABASE_PORT"),
+        'CONN_MAX_AGE': 600,         
     }
 }
 
+import dj_database_url 
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
 
-MAX_CONN_AGE=600
+# MAX_CONN_AGE=600
 
 
-if "DATABASE_URL" in os.environ:
-    # Configure Django for DATABASE_URL environment variable.
-    DATABASES["default"] = dj_database_url.config(
-        conn_max_age=MAX_CONN_AGE, ssl_require=False)
+# if "DATABASE_URL" in os.environ:
+#     # Configure Django for DATABASE_URL environment variable.
+#     DATABASES["default"] = dj_database_url.config(
+#         conn_max_age=MAX_CONN_AGE, ssl_require=False)
 
-    # Enable test database if found in CI environment.
-    if "CI" in os.environ:
-        DATABASES["default"]["TEST"] = DATABASES["default"]
+#     # Enable test database if found in CI environment.
+#     if "CI" in os.environ:
+#         DATABASES["default"]["TEST"] = DATABASES["default"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
