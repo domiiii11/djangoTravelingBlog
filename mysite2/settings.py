@@ -31,7 +31,7 @@ print(str(BASE_DIR) + "BASE_DIR")
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*4%360imcd6u-p_#x3c^r6o(id=0hd9f^v6y8f!mkv&9*^kt(z'
+
 
 # Include BOOTSTRAP5_FOLDER in path
 BOOTSTRAP5_FOLDER = os.path.abspath(os.path.join(BASE_DIR, "..", "bootstrap5"))
@@ -108,6 +108,9 @@ TEMPLATES = [
     },
 ]
 
+print(os.environ)
+print
+
 WSGI_APPLICATION = 'mysite2.wsgi.application'
 
 # Database
@@ -126,6 +129,9 @@ DATABASES = {
     }
 }
 
+print(os.environ["DATABASE_URL"])
+
+print(env("DATABASE_URL"))
 
 MAX_CONN_AGE=600
 
@@ -134,10 +140,11 @@ if "DATABASE_URL" in os.environ:
     # Configure Django for DATABASE_URL environment variable.
     DATABASES["default"] = dj_database_url.config(
         conn_max_age=MAX_CONN_AGE, ssl_require=False)
-
+    print(DATABASES["default"])
     # Enable test database if found in CI environment.
     if "CI" in os.environ:
         DATABASES["default"]["TEST"] = DATABASES["default"]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
