@@ -108,9 +108,6 @@ TEMPLATES = [
     },
 ]
 
-print(os.environ)
-print
-
 WSGI_APPLICATION = 'mysite2.wsgi.application'
 
 # Database
@@ -129,9 +126,6 @@ DATABASES = {
     }
 }
 
-print(os.environ["DATABASE_URL"])
-
-print(env("DATABASE_URL"))
 
 MAX_CONN_AGE=600
 
