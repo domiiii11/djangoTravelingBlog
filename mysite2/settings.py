@@ -43,7 +43,7 @@ if BOOTSTRAP5_FOLDER not in sys.path:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-traveling-blog.herokuapp.com',
+ALLOWED_HOSTS = ['djangotravelingblog.herokuapp.com',
                 '127.0.0.1']
 
 # Application definition
