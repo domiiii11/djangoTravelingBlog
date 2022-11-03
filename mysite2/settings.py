@@ -24,7 +24,6 @@ environ.Env.read_env()
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env("SECRET_KEY")
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #C:\Users\PC\Documents\PYTHON\djangoTravelingBlog
 
@@ -83,7 +82,6 @@ AUTO_LOGOUT = { 'IDLE_TIME': timedelta(minutes=20),
                 'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
                 }
 
-
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 # media_root - it is absolute path there all collected
 MEDIA_URL = 'media/'
@@ -116,7 +114,6 @@ WSGI_APPLICATION = 'mysite2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -141,12 +138,11 @@ print(DATABASES)
 #     }
 # }
 
-
 MAX_CONN_AGE = 600
 
-if not env('HEROKU_POSTGRESQL_BLUE_URL'):
+if env('POSTRESQL_CUBED_73905'):
     # Configure Django for DATABASE_URL environment variable.
-    DATABASES["default"] = dj_database_url.parse(env('HEROKU_POSTGRESQL_BLUE_URL'),
+    DATABASES["default"] = dj_database_url.parse(env('POSTRESQL_CUBED_73905'),
         conn_max_age=MAX_CONN_AGE, ssl_require=False)
 
     # Enable test database if found in CI environment.
@@ -190,7 +186,6 @@ PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 #c:\Users\PC\Documents\PYTHON\djangoTravelingBlog\mysite2\settings.py
 
-
 STATIC_ROOT = 'static-files/'
 
 #location there where all static files are collected
@@ -202,7 +197,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')     
     ]
-
 
 #  Add configuration for static files storage using django-storages
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
@@ -233,7 +227,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 DEFAULT_FILE_STORAGE = 'blog.custom_storage.MediaStorage'
-
 
 AWS_S3_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")
