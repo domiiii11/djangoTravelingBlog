@@ -10,10 +10,9 @@ from django.shortcuts import redirect, render
 
 
 def retrieve_places_to_visit():
-    # places_to_visit = PlaceToVisit.objects.all()
-    # places_to_visit = {
-    #     place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in places_to_visit}
-    places_to_visit = []
+    places_to_visit = PlaceToVisit.objects.all()
+    places_to_visit = {
+        place_to_visit.id: place_to_visit.places_to_visit for place_to_visit in places_to_visit}
     return places_to_visit
 
 
@@ -46,7 +45,7 @@ def create_post(request):
     post_form = PostForm()
     (print("choices VIEW"))
     print("post-method-not-success")
-    choices__ = []
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         print("post-method-success")
@@ -83,7 +82,7 @@ def load_post(request, post_id):
 def edit_post(request, post_id):
     post_form = PostForm()
     old_post_object = Post.objects.get(pk=post_id)
-    choices__ = []
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         if post_form.is_valid():
@@ -122,7 +121,7 @@ def create_place_to_visit(request):
 def upload_image(request):
     # upload_view = FileUploadView()
     image_form = ImageForm()
-    choices__ = []
+    choices__ = retrieve_places_to_visit()
     if request.method == 'POST':
         image_form = ImageForm(request.POST, request.FILES)
         if image_form.is_valid():
